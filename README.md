@@ -6,3 +6,5 @@
 
 * [komentorivi.txt](https://github.com/Miniaya/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
 
+> Ei ole olemassa tyhmiä kysymyksiä,
+> pelkästään tyhmiä vastauksia.
