@@ -1,8 +1,7 @@
-# Tämä on työni otsikko
+# Ohjelmistotekniikka, harjoitustyö
 
-1. Listaan **asioita** näin
-1. Tämä teksti on *vinossa*
+### Viikko 1
 
-Tässä mä testaan:
-> Olen eristyksissä
-> vapaaehtoisesti
+[gitlog.txt](https://github.com/Miniaya/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+[komentorivi.txt](https://github.com/Miniaya/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+
