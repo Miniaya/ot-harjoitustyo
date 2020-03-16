@@ -8,3 +8,5 @@
 
 > Ei ole olemassa tyhmiä kysymyksiä,
 > pelkästään tyhmiä vastauksia.
+
+muutos
