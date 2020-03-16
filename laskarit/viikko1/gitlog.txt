@@ -1,0 +1,122 @@
+commit 500342b17ef6b512ff2edd4589e2236649e44247
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 14:35:19 2020 +0200
+
+    Tiedoston poisto
+
+ tiedostoja/file1 | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit ebe1006f8612f6a1cb348368316660ba42222343
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 14:34:56 2020 +0200
+
+    Tiedoston uudelleennimeäminen
+
+ tiedostoja/{file2 => file22} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 15ece9b9421dd458741d4e042472be146e908a7b
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 14:29:25 2020 +0200
+
+    Hakemisto ja tiedostot luotu
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 5dc0ec451db53069d2d2244b36e9f56ef445fdcc
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 14:06:20 2020 +0200
+
+    Muutokset tiedostoihin eka ja kolmas
+
+ eka.txt    | 6 ++++--
+ kolmas.txt | 2 ++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+commit 8e0ddc6325aa5f5829ffedb4a16aa6a9227d9935
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:54:39 2020 +0200
+
+    Tiedoston uudelleennimeäminen
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit a546328c216d0c437839935103aeeabc365709eb
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:53:15 2020 +0200
+
+    Tiedoston poisto
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 59889d925ef348bdf530e56f0e962ef0623002ae
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:50:12 2020 +0200
+
+    Muokattu teksti
+
+ tiedosto.txt | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
+
+commit fd362107cc0161b5712023a7242ee03534d7269c
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:47:31 2020 +0200
+
+    Lisätty paljon tekstiä
+
+ tiedosto.txt | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+commit 975b683c9c7fdd51a6af488d521faf68000d15aa
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:44:13 2020 +0200
+
+    Hakemiston stuff luonti
+
+ stuff/jokin.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 6cbbb5a19415d2294dcae77a5df2ae195ade2974
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:42:53 2020 +0200
+
+    Tiedostojen muokkaus
+
+ kolmas.txt | 1 +
+ toinen.txt | 1 +
+ 2 files changed, 2 insertions(+)
+
+commit e96aba7880be8bec0c937b70e23fb216c1f1bae7
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:41:46 2020 +0200
+
+    Lisätty kolmas tiedosto
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit f59b52a6663573d6a694e55e3baf6b712510484e
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:37:16 2020 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit dabbac94c924b661ad085a3fbb3a7a79d1ee5fb4
+Author: Miniaya <henna.makiluoma@gmail.com>
+Date:   Mon Mar 16 13:34:56 2020 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
