@@ -9,4 +9,4 @@
 > Ei ole olemassa tyhmiä kysymyksiä,
 > pelkästään tyhmiä vastauksia.
 
-muutos
+[Vaatimusmäärittely](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/Vaatimusm%C3%A4%C3%A4rittely.md)
