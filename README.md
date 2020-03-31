@@ -1,12 +1,27 @@
-# Ohjelmistotekniikka, harjoitustyö
+# Battleships
 
-### Viikko 1
+Sovellus on oma versioni klassisesta laivanupotus-pelistä, jossa tarkoituksena on "upottaa" vastustajan laivat pelilaudalta ennen kuin vastustaja saa upotettua sinun laivasi.
 
-* [gitlog.txt](https://github.com/Miniaya/ot-harjoitustyo/blob/master/laskarit/viikko1/gitlog.txt)
+## Dokumentaatio
 
-* [komentorivi.txt](https://github.com/Miniaya/ot-harjoitustyo/blob/master/laskarit/viikko1/komentorivi.txt)
+[Käyttöohje](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kayttoohje.md)
 
-> Ei ole olemassa tyhmiä kysymyksiä,
-> pelkästään tyhmiä vastauksia.
+[Vaatimusmäärittely](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
 
-[Vaatimusmäärittely](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/Vaatimusmaarittely.md)
+[Arkkitehtuurikuvaus](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+
+[Testausdokumentti](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
+
+[Työaikakirjanpito](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
+
+## Releaset
+
+## Komentorivitoiminnot
+
+### Testaus
+
+Testit suoritetaan komennolla `mvn test`
+
+Testikattavuusraportti luodaan komennolla `mvn jacoco:report`
+
+Kattavuusraporttia voi tarkastella selaimessa target/site/jacoco/index.html

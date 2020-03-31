@@ -22,3 +22,4 @@ pelin satunnaisesti generoimat laivat, joita pelaaja yrittää upottaa.
 - Pelaaja voi itse vaikuttaa laivojen paikkaan ja asentoon
 - Tietokone on "viisaampi" kuin perusversiossa
 - Mahdollisuus kaksinpeliin
+- Keskenjäänyttä peliä on mahdollista jatkaa pelin uudelleenkäynnistyksen jälkeen
