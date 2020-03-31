@@ -17,6 +17,6 @@ Sovellus on oma versioni klassisesta laivanupotus-pelistä, jossa tarkoituksena 
 
 Testit suoritetaan komennolla `mvn test`
 
-Testikattavuusraportti luodaan komennolla`mvn jacoco:report`
+Testikattavuusraportti luodaan komennolla `mvn jacoco:report`
 
 Kattavuusraporttia voi tarkastella selaimessa target/site/jacoco/index.html
