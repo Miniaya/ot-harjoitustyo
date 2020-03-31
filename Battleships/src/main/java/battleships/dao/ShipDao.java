@@ -1,4 +1,3 @@
-
 package battleships.dao;
 
 import battleships.domain.Ship;
