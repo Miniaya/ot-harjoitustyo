@@ -36,7 +36,7 @@ public class ShipTest {
     
     @Test
     public void constructorWorks(){
-        ship = new Ship(ShipType.DESTROYER);
+        ship = new Ship(ShipType.DESTROYER, 1);
         assertEquals(ShipType.DESTROYER, ship.getShipType());
     }
     
@@ -45,6 +45,12 @@ public class ShipTest {
         ship.setShipType(ShipType.CRUISER);
         int size = ship.getShipType().getSize();
         assertEquals(3, size);
+    }
+    
+    @Test
+    public void setOwnerWorks(){
+        ship.setOwner(1);
+        assertEquals(1, ship.getOwner());
     }
 
 }
