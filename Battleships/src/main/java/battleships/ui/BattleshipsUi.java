@@ -13,39 +13,70 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-import java.util.HashMap;
-import java.util.ArrayList;
+import battleships.dao.SQLShipDao;
+import battleships.domain.Ship;
+import battleships.domain.ShipType;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BattleshipsUi extends Application {
     
-    private HashMap<Integer, ArrayList<Integer>> coordinates;
+    private SQLShipDao shipDao;
     
     @Override
-    public void init(){
-        coordinates = new HashMap<>();
-        ArrayList<Integer> arr = new ArrayList<>();
-        arr.add(1);
-        arr.add(2);
-        arr.add(4);
-        arr.add(7);
-        arr.add(8);
-        arr.add(9);
-        arr.add(10);
+    public void init() throws SQLException {
         
-        coordinates.put(1, arr);
+        shipDao = new SQLShipDao();
         
-        arr = new ArrayList<>();
-        arr.add(4);
+        // Ships
+        Ship carrier = new Ship(ShipType.CARRIER, 1);
+        Ship battleship = new Ship(ShipType.BATTLESHIP, 1);
+        Ship cruiser1 = new Ship(ShipType.CRUISER, 1);
+        Ship cruiser2 =new Ship(ShipType.CRUISER, 1);
+        Ship submarine = new Ship(ShipType.SUBMARINE, 1);
+        Ship destroyer = new Ship(ShipType.DESTROYER, 1);
         
-        coordinates.put(2, arr);
+        // add ships to database
+        shipDao.create(carrier);
+        shipDao.create(battleship);
+        shipDao.create(cruiser1);
+        shipDao.create(cruiser2);
+        shipDao.create(submarine);
+        shipDao.create(destroyer);
         
-        arr = new ArrayList<>();
-        arr.add(4);
-        arr.add(6);
-        arr.add(7);
-        arr.add(8);
+        // carrier placement
+        shipDao.addCoordinates(carrier, 6, 10);
+        shipDao.addCoordinates(carrier, 7, 10);
+        shipDao.addCoordinates(carrier, 8, 10);
+        shipDao.addCoordinates(carrier, 9, 10);
+        shipDao.addCoordinates(carrier, 10, 10);
         
-        coordinates.put(3, arr);
+        // battleship placement
+        shipDao.addCoordinates(battleship, 1, 3);
+        shipDao.addCoordinates(battleship, 1, 4);
+        shipDao.addCoordinates(battleship, 1, 5);
+        shipDao.addCoordinates(battleship, 1, 6);
+        
+        // cruiser1 placement
+        shipDao.addCoordinates(cruiser1, 4, 1);
+        shipDao.addCoordinates(cruiser1, 4, 2);
+        shipDao.addCoordinates(cruiser1, 4, 3);
+        
+        // cuiser2 placement
+        shipDao.addCoordinates(cruiser2, 6, 3);
+        shipDao.addCoordinates(cruiser2, 7, 3);
+        shipDao.addCoordinates(cruiser1, 8, 3);
+        
+        // submarine placement
+        shipDao.addCoordinates(submarine, 8, 6);
+        shipDao.addCoordinates(submarine, 8, 7);
+        shipDao.addCoordinates(submarine, 8, 8);
+        
+        // destroyer placement
+        shipDao.addCoordinates(destroyer, 1, 8);
+        shipDao.addCoordinates(destroyer, 2, 8);
+        
     }
     
     @Override
@@ -80,11 +111,14 @@ public class BattleshipsUi extends Application {
                 int y = j + 1;
                 
                 button.setOnAction((event) -> {
-                    if(isShip(x, y)){
-                        markAsHit(x, y);
-                        button.setText("O");
-                    } else {
-                        button.setText("X");
+                    try {
+                        if(shipDao.findByCoordinates(x, y)){
+                            button.setText("O");
+                        } else {
+                            button.setText("X");
+                        }
+                    } catch (SQLException ex) {
+                        Logger.getLogger(BattleshipsUi.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
             }
@@ -116,19 +150,12 @@ public class BattleshipsUi extends Application {
     }
     
     @Override
-    public void stop(){
-        
+    public void stop() throws SQLException{
+        shipDao.clearTables();
     }
     
     public static void main(String[] args){
         launch(BattleshipsUi.class);
     }
     
-    private boolean isShip(int x, int y){
-        return coordinates.get(y).contains(x);
-    }
-    
-    private void markAsHit(int x, int y){
-        coordinates.get(y).remove(x);
-    }
 }

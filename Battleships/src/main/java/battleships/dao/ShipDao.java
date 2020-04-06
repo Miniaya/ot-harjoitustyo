@@ -1,12 +1,17 @@
 package battleships.dao;
 
 import battleships.domain.Ship;
+import java.sql.*;
 
 public interface ShipDao {
     
-    void create(Ship ship) throws Exception;
+    boolean create(Ship ship) throws SQLException;
     
-    boolean findByCoordinates(int x, int y);
+    boolean addCoordinates(Ship ship, int x, int y) throws SQLException;
     
-    void update(Ship ship);
+    boolean findByCoordinates(int x, int y) throws SQLException;
+    
+    void update(Ship ship) throws SQLException;
+    
+    void deleteShip(Ship ship) throws SQLException;
 }
