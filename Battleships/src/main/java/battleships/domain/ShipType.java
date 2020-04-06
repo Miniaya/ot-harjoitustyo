@@ -13,11 +13,11 @@ public enum ShipType {
     
     private int size;
     
-    private ShipType(int size){
+    private ShipType(int size) {
         this.size = size;
     }
     
-    public int getSize(){
+    public int getSize() {
         return this.size;
     }
     
