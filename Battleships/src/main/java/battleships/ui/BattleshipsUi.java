@@ -28,7 +28,6 @@ public class BattleshipsUi extends Application {
     public void init() throws SQLException {
         
         service = new ShipService();
-        service.generateShips();
         
     }
     
@@ -118,6 +117,12 @@ public class BattleshipsUi extends Application {
         // Button actions
         start.setOnAction((event) -> {
             primaryStage.setScene(gameScene);
+            
+            try {
+                service.generateShips();
+            } catch (SQLException ex) {
+                Logger.getLogger(BattleshipsUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         primaryStage.setTitle("BattleShips");
