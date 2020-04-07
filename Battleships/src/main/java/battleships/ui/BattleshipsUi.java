@@ -10,72 +10,25 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 
-import battleships.dao.SQLShipDao;
-import battleships.domain.Ship;
-import battleships.domain.ShipType;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import battleships.domain.ShipService;
+
 public class BattleshipsUi extends Application {
     
-    private SQLShipDao shipDao;
+    private ShipService service;
     
     @Override
     public void init() throws SQLException {
         
-        shipDao = new SQLShipDao();
-        
-        // Ships
-        Ship carrier = new Ship(ShipType.CARRIER, 1);
-        Ship battleship = new Ship(ShipType.BATTLESHIP, 1);
-        Ship cruiser1 = new Ship(ShipType.CRUISER, 1);
-        Ship cruiser2 =new Ship(ShipType.CRUISER, 1);
-        Ship submarine = new Ship(ShipType.SUBMARINE, 1);
-        Ship destroyer = new Ship(ShipType.DESTROYER, 1);
-        
-        // add ships to database
-        shipDao.create(carrier);
-        shipDao.create(battleship);
-        shipDao.create(cruiser1);
-        shipDao.create(cruiser2);
-        shipDao.create(submarine);
-        shipDao.create(destroyer);
-        
-        // carrier placement
-        shipDao.addCoordinates(carrier, 6, 10);
-        shipDao.addCoordinates(carrier, 7, 10);
-        shipDao.addCoordinates(carrier, 8, 10);
-        shipDao.addCoordinates(carrier, 9, 10);
-        shipDao.addCoordinates(carrier, 10, 10);
-        
-        // battleship placement
-        shipDao.addCoordinates(battleship, 1, 3);
-        shipDao.addCoordinates(battleship, 1, 4);
-        shipDao.addCoordinates(battleship, 1, 5);
-        shipDao.addCoordinates(battleship, 1, 6);
-        
-        // cruiser1 placement
-        shipDao.addCoordinates(cruiser1, 4, 1);
-        shipDao.addCoordinates(cruiser1, 4, 2);
-        shipDao.addCoordinates(cruiser1, 4, 3);
-        
-        // cuiser2 placement
-        shipDao.addCoordinates(cruiser2, 6, 3);
-        shipDao.addCoordinates(cruiser2, 7, 3);
-        shipDao.addCoordinates(cruiser1, 8, 3);
-        
-        // submarine placement
-        shipDao.addCoordinates(submarine, 8, 6);
-        shipDao.addCoordinates(submarine, 8, 7);
-        shipDao.addCoordinates(submarine, 8, 8);
-        
-        // destroyer placement
-        shipDao.addCoordinates(destroyer, 1, 8);
-        shipDao.addCoordinates(destroyer, 2, 8);
+        service = new ShipService();
+        service.generateShips();
         
     }
     
