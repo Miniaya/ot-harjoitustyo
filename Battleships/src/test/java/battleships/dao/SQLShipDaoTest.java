@@ -10,6 +10,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import battleships.domain.Ship;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class SQLShipDaoTest {
@@ -49,8 +51,10 @@ public class SQLShipDaoTest {
     
     @Test
     public void findByCoordinatesWorks() throws SQLException{
-        boolean find = d.findByCoordinates(2, 2);
-        assertTrue(find);
+        
+        int find = d.findByCoordinates(2, 2);
+        
+        assertTrue(find > 0);
     }
 
 }

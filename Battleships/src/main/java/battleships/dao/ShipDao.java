@@ -9,9 +9,9 @@ public interface ShipDao {
     
     boolean addCoordinates(Ship ship, int x, int y) throws SQLException;
     
-    boolean findByCoordinates(int x, int y) throws SQLException;
+    int findByCoordinates(int x, int y) throws SQLException;
     
-    void update(Ship ship) throws SQLException;
+    void update(Ship ship, Connection conn) throws SQLException;
     
-    void deleteShip(Ship ship) throws SQLException;
+    void deleteShip(Ship ship, Connection conn) throws SQLException;
 }
