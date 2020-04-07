@@ -92,8 +92,6 @@ public class SQLShipDao implements ShipDao {
             
         } catch (SQLException e) {
             
-            System.out.println(e);
-            
             conn.close();
             return -1;
         }
@@ -175,9 +173,9 @@ public class SQLShipDao implements ShipDao {
             stmt.setInt(1, id);
             
             ResultSet r = stmt.executeQuery();
-            String ans = r.getString(1);
             
             if (r.next()) {
+                String ans = r.getString(1);
                 
                 stmt.close();
                 r.close();

@@ -18,7 +18,7 @@ public class ShipService {
     private Ship submarine;
     private Ship destroyer;
     
-    public ShipService() throws SQLException{
+    public ShipService() throws SQLException {
         shipDao = new SQLShipDao();
         
         carrier = new Ship(ShipType.CARRIER, 1);
@@ -27,6 +27,14 @@ public class ShipService {
         cruiser2 = new Ship(ShipType.CRUISER, 1);
         submarine = new Ship(ShipType.SUBMARINE, 1);
         destroyer = new Ship(ShipType.DESTROYER, 1);
+        
+        // add ships to database
+        shipDao.create(carrier);
+        shipDao.create(battleship);
+        shipDao.create(cruiser1);
+        shipDao.create(cruiser2);
+        shipDao.create(submarine);
+        shipDao.create(destroyer);
     }
     
     public int isShip(int x, int y) throws SQLException {
@@ -45,35 +53,27 @@ public class ShipService {
     
     public void generateShips() throws SQLException {
         
-        // add ships to database
-        shipDao.create(carrier);
-        shipDao.create(battleship);
-        shipDao.create(cruiser1);
-        shipDao.create(cruiser2);
-        shipDao.create(submarine);
-        shipDao.create(destroyer);
-        
         // carrier placement
         
-        for (int i = 6 ; i <= 10 ; i++) {
+        for (int i = 6; i <= 10; i++) {
             shipDao.addCoordinates(carrier, i, 10);
         }
         
         // battleship placement
         
-        for (int i = 3 ; i <= 6 ; i++) {
+        for (int i = 3; i <= 6; i++) {
             shipDao.addCoordinates(battleship, 1, i);
         }
         
         // cruiser1 placement
         
-        for (int i = 1 ; i <= 3 ; i++) {
+        for (int i = 1; i <= 3; i++) {
             shipDao.addCoordinates(cruiser1, 4, i);
         }
         
         // cuiser2 & submarine placement
         
-        for (int i = 6 ; i <= 8 ; i++) {
+        for (int i = 6; i <= 8; i++) {
             shipDao.addCoordinates(cruiser2, i, 3);
             shipDao.addCoordinates(submarine, 8, i);
         }
