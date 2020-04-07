@@ -53,6 +53,9 @@ public class BattleshipsUi extends Application {
         
         // Creating the game
         GridPane gamePane = new GridPane();
+        BorderPane mainGamePane = new BorderPane();
+        
+        Label sunk = new Label();
         
         for(int i = 0 ; i < 10 ; i++){
             for(int j = 0 ; j < 10 ; j++){
@@ -65,10 +68,27 @@ public class BattleshipsUi extends Application {
                 
                 button.setOnAction((event) -> {
                     try {
-                        if(shipDao.findByCoordinates(x, y)){
+                        int shot = service.isShip(x, y);
+                        
+                        if ( shot > 0 && button.getText().equals(" ")) {
                             button.setText("O");
-                        } else {
+                            button.setTextFill(Color.RED);
+                            
+                            String ship = service.isSink(shot);
+                            
+                            if (ship != null) {
+                                
+                                sunk.setText("Sunken: " + ship);
+                                
+                            } else {
+                                
+                                sunk.setText("");
+                            }
+                            
+                        } else if ( shot < 0 && button.getText().equals(" ")) {
+                            
                             button.setText("X");
+                            sunk.setText("");
                         }
                     } catch (SQLException ex) {
                         Logger.getLogger(BattleshipsUi.class.getName()).log(Level.SEVERE, null, ex);
@@ -87,10 +107,13 @@ public class BattleshipsUi extends Application {
             gamePane.add(new Label(String.valueOf(i)), 2, i + 2);
         }
         
+        mainGamePane.setCenter(gamePane);
+        mainGamePane.setTop(sunk);
+        
         gamePane.setPrefSize(650, 650);
         gamePane.setAlignment(Pos.CENTER);
         
-        Scene gameScene = new Scene(gamePane);
+        Scene gameScene = new Scene(mainGamePane);
         
         // Button actions
         start.setOnAction((event) -> {
@@ -103,8 +126,8 @@ public class BattleshipsUi extends Application {
     }
     
     @Override
-    public void stop() throws SQLException{
-        shipDao.clearTables();
+    public void stop() throws SQLException {
+        service.clear();
     }
     
     public static void main(String[] args){
