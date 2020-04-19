@@ -2,85 +2,103 @@
 package battleships.domain;
 
 import battleships.dao.SQLShipDao;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+
+import java.util.Random;
 
 public class ShipService {
     
     private SQLShipDao shipDao;
     private Connection connection;
     
-    private Ship carrier;
-    private Ship battleship;
+    private Ship carrier1;
+    private Ship battleship1;
     private Ship cruiser1;
+    private Ship rowboat1;
+    private Ship submarine1;
+    private Ship destroyer1;
+    
+    private Ship carrier2;
+    private Ship battleship2;
     private Ship cruiser2;
-    private Ship submarine;
-    private Ship destroyer;
+    private Ship rowboat2;
+    private Ship submarine2;
+    private Ship destroyer2;
     
     public ShipService() throws SQLException {
         shipDao = new SQLShipDao();
         
-        carrier = new Ship(ShipType.CARRIER, 1);
-        battleship = new Ship(ShipType.BATTLESHIP, 1);
+        // Player 1
+        carrier1 = new Ship(ShipType.CARRIER, 1);
+        battleship1 = new Ship(ShipType.BATTLESHIP, 1);
         cruiser1 = new Ship(ShipType.CRUISER, 1);
-        cruiser2 = new Ship(ShipType.CRUISER, 1);
-        submarine = new Ship(ShipType.SUBMARINE, 1);
-        destroyer = new Ship(ShipType.DESTROYER, 1);
+        rowboat1 = new Ship(ShipType.ROWBOAT, 1);
+        submarine1 = new Ship(ShipType.SUBMARINE, 1);
+        destroyer1 = new Ship(ShipType.DESTROYER, 1);
         
         // add ships to database
-        shipDao.create(carrier);
-        shipDao.create(battleship);
+        shipDao.create(carrier1);
+        shipDao.create(battleship1);
         shipDao.create(cruiser1);
+        shipDao.create(rowboat1);
+        shipDao.create(submarine1);
+        shipDao.create(destroyer1);
+        
+        // Player 2
+        carrier2 = new Ship(ShipType.CARRIER, 2);
+        battleship2 = new Ship(ShipType.BATTLESHIP, 2);
+        cruiser2 = new Ship(ShipType.CRUISER, 2);
+        rowboat2 = new Ship(ShipType.ROWBOAT, 2);
+        submarine2 = new Ship(ShipType.SUBMARINE, 2);
+        destroyer2 = new Ship(ShipType.DESTROYER, 2);
+        
+        // add ships to database
+        shipDao.create(carrier2);
+        shipDao.create(battleship2);
         shipDao.create(cruiser2);
-        shipDao.create(submarine);
-        shipDao.create(destroyer);
+        shipDao.create(rowboat2);
+        shipDao.create(submarine2);
+        shipDao.create(destroyer2);
+        
     }
     
-    public int isShip(int x, int y) throws SQLException {
+    public int isShip(int x, int y, int player) throws SQLException {
         
-        int shot = shipDao.findByCoordinates(x, y);
-        
-        if (shot > 0) {
-            
-            connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-            shipDao.sinkPart(x, y, connection);
-            
-        }
-        
-        return shot;
+        return shipDao.findByCoordinates(x, y, player);
     }
     
-    public void generateShips() throws SQLException {
+    public void generateCoordinates(Ship ship) throws SQLException {
         
-        // carrier placement
-        
-        for (int i = 6; i <= 10; i++) {
-            shipDao.addCoordinates(carrier, i, 10);
+        Random r = new Random();
+        int x, y;
+        double direction = r.nextDouble();
+         
+        while (true) {
+            
+            x = r.nextInt(10) + 1;
+            y = r.nextInt(10) + 1;
+            
+            if (isValidate(x, y, direction, ship.length(), ship.getOwner())) {
+                break;
+            }
         }
-        
-        // battleship placement
-        
-        for (int i = 3; i <= 6; i++) {
-            shipDao.addCoordinates(battleship, 1, i);
+            
+        if ( direction < 0.5 ) {
+            
+            for (int i = x ; i < x + ship.length() ; i++) {
+                shipDao.addCoordinates(ship, i, y);
+            }
+            
+        } else {
+            
+            for (int i = y ; i < y + ship.length() ; i++) {
+                shipDao.addCoordinates(ship, x, i);
+            }
+                
         }
-        
-        // cruiser1 placement
-        
-        for (int i = 1; i <= 3; i++) {
-            shipDao.addCoordinates(cruiser1, 4, i);
-        }
-        
-        // cuiser2 & submarine placement
-        
-        for (int i = 6; i <= 8; i++) {
-            shipDao.addCoordinates(cruiser2, i, 3);
-            shipDao.addCoordinates(submarine, 8, i);
-        }
-        
-        // destroyer placement
-        shipDao.addCoordinates(destroyer, 1, 8);
-        shipDao.addCoordinates(destroyer, 2, 8);
         
     }
     
