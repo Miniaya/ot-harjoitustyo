@@ -61,14 +61,15 @@ public class SQLShipDao implements ShipDao {
     }
     
     @Override
-    public int findByCoordinates(int x, int y) throws SQLException {
+    public int findByCoordinates(int x, int y, int player) throws SQLException {
         
         Connection conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
         
         try {
-            PreparedStatement stmt = conn.prepareStatement("SELECT ship_id FROM Positioning WHERE x = ? AND y = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT P.ship_id FROM Positioning P LEFT JOIN Ships ON P.ship_id = Ships.id WHERE P.x = ? AND P.y = ? AND Ships.owner = ?");
             stmt.setInt(1, x);
             stmt.setInt(2, y);
+            stmt.setInt(3, player);
             
             ResultSet r = stmt.executeQuery();
             
@@ -104,17 +105,33 @@ public class SQLShipDao implements ShipDao {
     }
     
     @Override
-    public void deleteShip(Ship ship, Connection conn) throws SQLException {
-        
-    }
-    
-    public boolean sinkPart(int x, int y, Connection conn) throws SQLException {
+    public void deleteShip(int id, Connection conn) throws SQLException {
         
         try {
             
-            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Positioning WHERE x = ? AND y = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Ships WHERE id = ?");
+            stmt.setInt(1, id);
+            
+            stmt.executeUpdate();
+            
+            stmt.close();
+            conn.close();
+            
+        } catch (SQLException e) {
+            
+            System.out.println(e);
+            conn.close();
+        }
+    }
+    
+    public boolean sinkPart(int x, int y, Connection conn, int id) throws SQLException {
+        
+        try {
+            
+            PreparedStatement stmt = conn.prepareStatement("DELETE FROM Positioning WHERE x = ? AND y = ? AND ship_id = ?");
             stmt.setInt(1, x);
             stmt.setInt(2, y);
+            stmt.setInt(3, id);
             
             stmt.executeUpdate();
             
@@ -135,7 +152,7 @@ public class SQLShipDao implements ShipDao {
         
         try {
             
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Positioning WHERE ship_id = ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Positioning P LEFT JOIN Ships ON P.ship_id = Ships.id WHERE P.ship_id = ?");
             stmt.setInt(1, id);
             
             ResultSet r = stmt.executeQuery();
@@ -159,6 +176,7 @@ public class SQLShipDao implements ShipDao {
             
         } catch (SQLException e) {
             
+            System.out.println(e);
             conn.close();
             
             return false;
@@ -218,6 +236,40 @@ public class SQLShipDao implements ShipDao {
         } catch (SQLException e) {
             
             conn.close();
+            return false;
+        }
+    }
+    
+    public boolean isEmpty(int player, Connection conn) throws SQLException {
+        
+        try {
+            
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM Ships WHERE owner = ?");
+            stmt.setInt(1, player);
+            
+            ResultSet r = stmt.executeQuery();
+            
+            if (!r.next()) {
+                
+                r.close();
+                stmt.close();
+                conn.close();
+                
+                return true;
+                
+            } else {
+                
+                r.close();
+                stmt.close();
+                conn.close();
+                
+                return false;
+            }
+        } catch (SQLException e) {
+            
+            System.out.println(e);
+            conn.close();
+            
             return false;
         }
     }

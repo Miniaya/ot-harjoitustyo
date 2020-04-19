@@ -97,14 +97,91 @@ public class ShipService {
         if (shipDao.isSunk(id, connection)) {
             
             connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
+            String ship = shipDao.getShip(id, connection);
             
-            return shipDao.getShip(id, connection);
+            connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
+            shipDao.deleteShip(id, connection);
+            
+            return ship;
             
         } else {
             
             return null;
         }
         
+    }
+    
+    public void generateShips() throws SQLException {
+        
+        generateCoordinates(carrier1);
+        generateCoordinates(battleship1);
+        generateCoordinates(cruiser1);
+        generateCoordinates(rowboat1);
+        generateCoordinates(submarine1);
+        generateCoordinates(destroyer1);
+        
+        generateCoordinates(carrier2);
+        generateCoordinates(battleship2);
+        generateCoordinates(cruiser2);
+        generateCoordinates(rowboat2);
+        generateCoordinates(submarine2);
+        generateCoordinates(destroyer2);
+        
+    }
+    
+    private boolean isValidate(int x, int y, double direction, int length, int player) throws SQLException {
+        
+        if (direction < 0.5) {
+            
+            if ( x + length - 1 > 10) {
+                
+                return false;
+                
+            } else {
+                
+                for(int i = x ; i < x + length ; i++){
+                    
+                    if(isShip(i, y + 1, player) > 0 || isShip(i + 1, y, player) > 0 || isShip(i - 1, y, player) > 0 || isShip(i, y - 1, player) > 0){
+                        
+                    return false;
+                    }
+                }
+                
+                return true;
+            }
+                
+        } else {
+                      
+            if ( y + length - 1 > 10) {
+                
+                return false;
+                
+            } else {
+                
+                for(int i = y ; i < y + length ; i++){
+                    
+                    if(isShip(x, i + 1, player) > 0 || isShip(x + 1, i, player) > 0 || isShip(x - 1, i, player) > 0 || isShip(x, i - 1, player) > 0){
+                        
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+        }
+    }
+    
+    public void sink(int x, int y, int id) throws SQLException {
+        
+        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
+        shipDao.sinkPart(x, y, connection, id);
+    }
+    
+    public boolean isEmpty(int player) throws SQLException {
+        
+        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
+        
+        return shipDao.isEmpty(player, connection);
     }
     
 }
