@@ -8,8 +8,10 @@
 |31.3. | 1    | Hienosäätöä, testien aloitus|
 |4.4.  | 1    | SQL-tietokannan käyttöönotto Mavenilla|
 |6.4.  | 2    | SQL-komentojen ja -testien alustava luonti|
-|7.4   | 1    | Checkstylen käyttöönotto ja virheiden korjaus|
+|7.4.  | 1    | Checkstylen käyttöönotto ja virheiden korjaus|
 |      | 2    | Lisää SQL-komentoja, Sovelluslogiikan eriyttämistä ja muuta hienosäätöä|
 |      | 1    | Paketti- ja luokkakaavion piirtäminen|
-|      |      |           |
-|Yhteensä | 14 |          |
+|18.4. | 3    | Laivojen randomgenerointi|
+|19.4. | 4    | Kaksinpeli ja siihen liittyvät parannukset|
+|      | 1    | Checkstyle-virheiden korjaus|
+|Yhteensä | 22 |          |
