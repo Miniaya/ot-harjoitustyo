@@ -61,11 +61,10 @@ public class SQLShipDao implements ShipDao {
     }
     
     @Override
-    public int findByCoordinates(int x, int y, int player) throws SQLException {
-        
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
+    public int findByCoordinates(int x, int y, int player, Connection conn) throws SQLException {
         
         try {
+            
             PreparedStatement stmt = conn.prepareStatement("SELECT P.ship_id FROM Positioning P LEFT JOIN Ships ON P.ship_id = Ships.id WHERE P.x = ? AND P.y = ? AND Ships.owner = ?");
             stmt.setInt(1, x);
             stmt.setInt(2, y);
@@ -73,27 +72,23 @@ public class SQLShipDao implements ShipDao {
             
             ResultSet r = stmt.executeQuery();
             
-            if (r.next()) {
-                int ans = r.getInt(1);
-               
-                stmt.close();
-                r.close();
-                conn.close();
+            int ans = -1;
             
-                return ans;
+            if (r.next()) {
                 
-            } else {
-                
-                stmt.close();
-                r.close();
-                conn.close();
-                
-                return -1;
+                ans = r.getInt(1);
             }
+            
+            r.close();
+            stmt.close();
+            conn.close();
+            
+            return ans;
             
         } catch (SQLException e) {
             
             conn.close();
+            
             return -1;
         }
         
@@ -118,13 +113,11 @@ public class SQLShipDao implements ShipDao {
             conn.close();
             
         } catch (SQLException e) {
-            
-            System.out.println(e);
             conn.close();
         }
     }
     
-    public boolean sinkPart(int x, int y, Connection conn, int id) throws SQLException {
+    public void sinkPart(int x, int y, Connection conn, int id) throws SQLException {
         
         try {
             
@@ -138,13 +131,10 @@ public class SQLShipDao implements ShipDao {
             stmt.close();
             conn.close();
             
-            return true;
-            
         } catch (SQLException e) {
             
             conn.close();
             
-            return false;
         }
     }
     
@@ -157,26 +147,25 @@ public class SQLShipDao implements ShipDao {
             
             ResultSet r = stmt.executeQuery();
             
+            boolean isSunk;
+            
             if (r.next()) {
                 
-                stmt.close();
-                r.close();
-                conn.close();
-                
-                return false;
+                isSunk = false;
                 
             } else {
                 
-                stmt.close();
-                r.close();
-                conn.close();
-                
-                return true;
+                isSunk = true;
             }
+            
+            r.close();
+            stmt.close();
+            conn.close();
+            
+            return isSunk;
             
         } catch (SQLException e) {
             
-            System.out.println(e);
             conn.close();
             
             return false;
@@ -192,23 +181,23 @@ public class SQLShipDao implements ShipDao {
             
             ResultSet r = stmt.executeQuery();
             
+            String type;
+            
             if (r.next()) {
-                String ans = r.getString(1);
                 
-                stmt.close();
-                r.close();
-                conn.close();
-                
-                return ans;
+                type = r.getString(1);
                 
             } else {
                 
-                stmt.close();
-                r.close();
-                conn.close();
-                
-                return null;
+                type = null;
             }
+            
+            r.close();
+            stmt.close();
+            conn.close();
+            
+            return type;
+            
         } catch (SQLException e) {
             
             conn.close();
@@ -236,6 +225,7 @@ public class SQLShipDao implements ShipDao {
         } catch (SQLException e) {
             
             conn.close();
+        
             return false;
         }
     }
@@ -249,29 +239,24 @@ public class SQLShipDao implements ShipDao {
             
             ResultSet r = stmt.executeQuery();
             
-            if (!r.next()) {
+            boolean empty = true;
+            
+            if (r.next()) {
                 
-                r.close();
-                stmt.close();
-                conn.close();
-                
-                return true;
-                
-            } else {
-                
-                r.close();
-                stmt.close();
-                conn.close();
-                
-                return false;
+                empty = false;
             }
+            
+            r.close();
+            stmt.close();
+            conn.close();
+            
+            return empty;
+            
         } catch (SQLException e) {
             
-            System.out.println(e);
             conn.close();
             
             return false;
         }
     }
-    
 }

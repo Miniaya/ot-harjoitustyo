@@ -30,7 +30,7 @@ public class Ship {
         this.owner = owner;
     }
     
-    public int length(){
+    public int length() {
         return type.getSize();
     }
     

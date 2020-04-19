@@ -14,6 +14,8 @@ public class ShipService {
     private SQLShipDao shipDao;
     private Connection connection;
     
+    private Random r;
+    
     private Ship carrier1;
     private Ship battleship1;
     private Ship cruiser1;
@@ -30,6 +32,8 @@ public class ShipService {
     
     public ShipService() throws SQLException {
         shipDao = new SQLShipDao();
+        
+        r = new Random();
         
         // Player 1
         carrier1 = new Ship(ShipType.CARRIER, 1);
@@ -67,12 +71,13 @@ public class ShipService {
     
     public int isShip(int x, int y, int player) throws SQLException {
         
-        return shipDao.findByCoordinates(x, y, player);
+        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
+        
+        return shipDao.findByCoordinates(x, y, player, connection);
     }
     
     public void generateCoordinates(Ship ship) throws SQLException {
         
-        Random r = new Random();
         int x, y;
         double direction = r.nextDouble();
          
@@ -86,15 +91,15 @@ public class ShipService {
             }
         }
             
-        if ( direction < 0.5 ) {
+        if (direction < 0.5) {
             
-            for (int i = x ; i < x + ship.length() ; i++) {
+            for (int i = x; i < x + ship.length(); i++) {
                 shipDao.addCoordinates(ship, i, y);
             }
             
         } else {
             
-            for (int i = y ; i < y + ship.length() ; i++) {
+            for (int i = y; i < y + ship.length(); i++) {
                 shipDao.addCoordinates(ship, x, i);
             }
                 
@@ -150,42 +155,28 @@ public class ShipService {
     private boolean isValidate(int x, int y, double direction, int length, int player) throws SQLException {
         
         if (direction < 0.5) {
-            
-            if ( x + length - 1 > 10) {
                 
-                return false;
-                
-            } else {
-                
-                for(int i = x ; i < x + length ; i++){
+            for (int i = x; i < x + length; i++) {
                     
-                    if(isShip(i, y + 1, player) > 0 || isShip(i + 1, y, player) > 0 || isShip(i - 1, y, player) > 0 || isShip(i, y - 1, player) > 0){
+                if (isShip(i, y + 1, player) > 0 || isShip(i + 1, y, player) > 0 || isShip(i - 1, y, player) > 0 || isShip(i, y - 1, player) > 0 || x + length - 1 > 10) {
                         
                     return false;
-                    }
                 }
-                
-                return true;
             }
+                
+            return true;
                 
         } else {
-                      
-            if ( y + length - 1 > 10) {
                 
-                return false;
-                
-            } else {
-                
-                for(int i = y ; i < y + length ; i++){
+            for (int i = y; i < y + length; i++) {
                     
-                    if(isShip(x, i + 1, player) > 0 || isShip(x + 1, i, player) > 0 || isShip(x - 1, i, player) > 0 || isShip(x, i - 1, player) > 0){
+                if (isShip(x, i + 1, player) > 0 || isShip(x + 1, i, player) > 0 || isShip(x - 1, i, player) > 0 || isShip(x, i - 1, player) > 0 || y + length - 1 > 10) {
                         
-                        return false;
-                    }
+                    return false;
                 }
-                
-                return true;
             }
+                
+            return true;
         }
     }
     
