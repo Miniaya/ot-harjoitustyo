@@ -18,6 +18,12 @@ Sovellus on oma versioni klassisesta laivanupotus-pelistä, jossa tarkoituksena 
 
 ## Komentorivitoiminnot
 
+### Pelin käynnistäminen
+
+Ohjelman käynnistäminen onnistuu NetBeansin kautta tai komentorivillä komennolla 
+
+`mvn compile exec:java -Dexec.mainClass=battleships.ui.Main`
+
 ### Testaus
 
 Testit suoritetaan komennolla `mvn test`
