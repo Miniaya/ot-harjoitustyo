@@ -10,18 +10,18 @@ pelin satunnaisesti generoimat laivat, joita pelaaja yrittää upottaa.
 
 ## Perusversion tarjoama toiminnallisuus
 
-- Pelialusta, johon pelaajan ja tietokoneen laivat generoidaan valmiiksi
+- Pelialusta, johon pelaajien laivat generoidaan valmiiksi
   * Laivojen koordinaatit on tallennettu tietokantaan
-- Pelaaja upottaa tietokoneen laivoja klikkailemalla pelilautaa
+- Laivoja upotetaan klikkailemalla pelilautaa
   * X, mikäli osuma meni ohi, O, mikäli laivaan osui
-- Tietokone yrittää upottaa pelaajan laivoja
 - Peli loppuu, kun kaikki tietokoneen tai pelaajan laivat on upotettu
+- Pelaaja vs pelaaja
 
 ## Toiminnallisuudet, jotka lisätään, jos aikaa jää
 
 - Pelaaja voi itse vaikuttaa laivojen paikkaan ja asentoon
 - Tietokone on "viisaampi" kuin perusversiossa
-- Mahdollisuus kaksinpeliin
+- Vastustaja on tietokone
 - Keskenjäänyttä peliä on mahdollista jatkaa pelin uudelleenkäynnistyksen jälkeen
 - Kokonaan uponneet laivat näkyvät kuvina
 
@@ -31,21 +31,22 @@ pelin satunnaisesti generoimat laivat, joita pelaaja yrittää upottaa.
 
 - [x] Aloitusvalikko
 - [x] Aloitusvalikosta pääsee peliin
-- [ ] Aloitusvalikosta voi sulkea sovelluksen
+- [x] Aloitusvalikosta voi sulkea sovelluksen
 - [ ] Pelin säännöt ovat sovelluksessa näkyvissä
-- [ ] Pelinäkymässä näkyy molempien pelaajien peli
+- [x] Pelinäkymässä näkyy molempien pelaajien peli
 - [x] Napin painaminen vaihtaa napin tekstin
 - [x] Napin teksti on joko X tai O riippuen siitä, osuiko laivaan vai ei
 - [x] O erottuu X:stä värin perusteella
 - [x] Peli ilmoittaa, mikä laiva on uponnut, kun se uppoaa kokonaan
-- [ ] Pelin reunassa näkyy, montako laivaa on uponnut ja mitkä uponneet laivat ovat
-- [ ] Peli ilmoittaa, kun pelaaja / kone voittaa
+- [x] Pelin reunassa näkyy uponneet laivat
+- [x] Peli ilmoittaa, kun jompi kumpi pelaajista voittaa
 - [ ] Voitetun / hävityn pelin jälkeen tulee valikko, jossa pelin voi aloittaa alusta
+- [ ] Mahdollisuus valita, onko peli kaksinpeli vai peli tietokonetta vastaan
 
 ### Ohjelman sisäiset toiminnallisuudet
 
 - [x] Ennen pelin alkamista generoidaan laivat
 - [x] Laivat tallennetaan tietokantaan
-- [ ] Randomgeneroidut laivat
+- [x] Randomgeneroidut laivat
 - [ ] "Tekoäly", joka pelaa pelaajaa vastaan
-- [ ] Pelin sulkeutuessa tietokannasta tyhjennetään kaikki ylimääräinen
+- [x] Pelin sulkeutuessa tietokannasta tyhjennetään kaikki ylimääräinen

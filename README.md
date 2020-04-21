@@ -24,6 +24,10 @@ Ohjelman käynnistäminen onnistuu NetBeansin kautta tai komentorivillä komenno
 
 `mvn compile exec:java -Dexec.mainClass=battleships.ui.Main`
 
+### Suoritettavan jarin generointi
+
+`mvn package` generoi kansioon target jar-tiedoston Battleships-1.0-SNAPSHOT.jar
+
 ### Testaus
 
 Testit suoritetaan komennolla `mvn test`

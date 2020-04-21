@@ -14,4 +14,5 @@
 |18.4. | 3    | Laivojen randomgenerointi|
 |19.4. | 4    | Kaksinpeli ja siihen liittyvät parannukset|
 |      | 1    | Checkstyle-virheiden korjaus|
-|Yhteensä | 22 |          |
+|21.4. | 2    | Testit ja jarin generointi
+|Yhteensä | 24 |          |
