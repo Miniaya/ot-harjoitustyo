@@ -52,5 +52,11 @@ public class ShipTest {
         ship.setOwner(1);
         assertEquals(1, ship.getOwner());
     }
+    
+    @Test
+    public void lengthIsCorrect(){
+        ship.setShipType(ShipType.CARRIER);
+        assertEquals(5, ship.length());
+    }
 
 }

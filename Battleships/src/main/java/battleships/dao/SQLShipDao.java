@@ -87,6 +87,7 @@ public class SQLShipDao implements ShipDao {
             
         } catch (SQLException e) {
             
+            System.out.println(e);
             conn.close();
             
             return -1;
@@ -147,16 +148,13 @@ public class SQLShipDao implements ShipDao {
             
             ResultSet r = stmt.executeQuery();
             
-            boolean isSunk;
+            boolean isSunk = true;
             
             if (r.next()) {
                 
                 isSunk = false;
                 
-            } else {
-                
-                isSunk = true;
-            }
+            } 
             
             r.close();
             stmt.close();
@@ -166,6 +164,7 @@ public class SQLShipDao implements ShipDao {
             
         } catch (SQLException e) {
             
+            System.out.println(e);
             conn.close();
             
             return false;
@@ -200,6 +199,7 @@ public class SQLShipDao implements ShipDao {
             
         } catch (SQLException e) {
             
+            System.out.println(e);
             conn.close();
             
             return null;
@@ -254,6 +254,7 @@ public class SQLShipDao implements ShipDao {
             
         } catch (SQLException e) {
             
+            System.out.println(e);
             conn.close();
             
             return false;
