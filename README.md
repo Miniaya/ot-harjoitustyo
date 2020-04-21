@@ -28,7 +28,7 @@ Ohjelman käynnistäminen onnistuu NetBeansin kautta tai komentorivillä komenno
 
 Testit suoritetaan komennolla `mvn test`
 
-Testikattavuusraportti luodaan komennolla `mvn jacoco:report`
+Testikattavuusraportti luodaan komennolla `mvn test jacoco:report`
 
 Kattavuusraporttia voi tarkastella avaamalla selaimessa tiedosto target/site/jacoco/index.html
 
