@@ -13,3 +13,5 @@ Tapahtumankäsittelijä kutsuu shipServicen metodia isShip, jolle annetaan param
 ### "Ampuminen" kohtaan, jossa on laiva, mutta laiva ei uppoa
 
 ![alt text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/sekvenssi2.png)
+
+Toinen pelaaja painaa samaa nappia omalla pelilaudallaan. Nyt SQLShipDaon metodi findByCoordinates löytää laivan ja palauttaa sen indeksin (7). Laivan indeksi palautetaan tapahtumankäsittelijälle. Koska palautettu arvo on nyt positiivinen, kutsutaan shipServicen metodia sink (parametrinaan laivan koordinaatit ja indekis), joka kutsuu SQLShipDaon metodia sinkPart. Metodi poistaa kyseisen laivan kyseisistä koordinaateista. Tämän jälkeen tapahtumankäsittelijä kutsuu metodia isSink parametrinaan laivan indeksi. Metodi kutsuu SQLShipDaon metodia isSunk. Metodi palauttaa false, koska laivasta on upotettu vasta osa, ei koko laivaa. ShipService palauttaa tapahtumankäsittelijälle false ja tapahtumankäsittelijä asettaa napin arvoksi "O" (laivaan osui) ja vuoro siirtyy seuraavalle.
