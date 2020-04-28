@@ -1,5 +1,14 @@
+## Rakenne
+
+Ohjelman rakenne noudattaa kolmitasoista kerrosarkkitehtuuria. Koodin pakkausrakenne on seuraava:
+
 ## Sovelluslogiikka
 
+Sovelluksen loogisen datamallin muodostavat luokat _Ship_ ja _ShipType_, jotka kuvaavat pelilaudalla olevia laivoja.
+
+_ShipService_ vastaa sovelluksen toiminnallisista kokonaisuuksista. Luokka tarjoaa käyttöliittymän toiminnallisuuksille metodit. Luokka pystyy muokkaamaan tietokannassa olevia tietoja pakkauksessa _battleships.dao_ olevan _SQLShipDao_ avulla, joka toteuttaa rajapinnan _ShipDao_.
+
+Ohjelman sisäisiä suhteita kuvaava luokka/pakkauskaavio:
 ![alt text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/arkkitehtuuri.png)
 
 ## Päätoiminnallisuudet
