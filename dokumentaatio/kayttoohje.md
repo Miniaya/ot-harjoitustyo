@@ -1,6 +1,6 @@
 # Käyttöohje
 
-Lataa tiedosto [battleships.jar]()
+Lataa tiedosto [battleships.jar](https://github.com/Miniaya/ot-harjoitustyo/releases/tag/viikko5)
 
 ## Ohjelman käynnistäminen
 
