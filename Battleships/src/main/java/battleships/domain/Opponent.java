@@ -73,7 +73,7 @@ public class Opponent {
             if (GridPane.getColumnIndex(node) == x + 1 && GridPane.getRowIndex(node) == y + 1) {
                 Button btn = (Button) node;
                 
-                if(service.isShip(x, y, 2) > 0){
+                if (service.isShip(x, y, 2) > 0) {
                     btn.setText("O");
                     return true;
                 } else {
