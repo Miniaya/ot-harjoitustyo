@@ -13,6 +13,7 @@ import static org.junit.Assert.*;
 public class ShipServiceTest {
     
     ShipService ser;
+    Ship ship;
     
     @BeforeClass
     public static void setUpClass() {
@@ -25,10 +26,12 @@ public class ShipServiceTest {
     @Before
     public void setUp() throws SQLException {
         ser = new ShipService();
+        ship = new Ship(ShipType.BATTLESHIP, 1);
     }
     
     @After
-    public void tearDown() {
+    public void tearDown() throws SQLException {
+        ser.clear();
     }
 
     @Test
@@ -37,7 +40,21 @@ public class ShipServiceTest {
     }
     
     @Test
-    public void isShipReturnsNegative(){
-        
+    public void isShipReturnsNegative() throws SQLException {
+        assertEquals(-1, ser.isShip(1, 1, 1));
     }
+    
+    @Test
+    public void generateShipsWorks() throws SQLException {
+        ser.generateShips();
+        
+        assertFalse(ser.isEmpty(1));
+        assertFalse(ser.isEmpty(2));
+    }
+    
+    @Test
+    public void isSinkReturnsType() throws SQLException {
+        assertEquals("carrier", ser.isSink(1));
+    }
+
 }
