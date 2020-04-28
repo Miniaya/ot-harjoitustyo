@@ -25,6 +25,7 @@ public class BattleshipsUi extends Application {
     
     private ShipService service;
     private Label turn;
+    private Stage primaryStage;
     
     @Override
     public void init() throws SQLException {
@@ -34,20 +35,30 @@ public class BattleshipsUi extends Application {
     }
     
     @Override
-    public void start(Stage primaryStage) {   
+    public void start(Stage primaryStage) throws SQLException {   
+        
+        this.primaryStage = primaryStage;
         
         // Creating main menu
         BorderPane mainPane = new BorderPane();
         VBox menuPane = new VBox();
         menuPane.setSpacing(10);
         
-        Button start = new Button("Start game");
-        start.setFont(Font.font("Monospaced", 30));
+        Button newGame = new Button("New game");
+        newGame.setFont(Font.font("Monospaced", 30));
+        
+        Button resume = new Button("Resume game");
+        resume.setFont(Font.font("Monospaced", 30));
         
         Button quit = new Button("Quit game");
         quit.setFont(Font.font("Monospaced", 30));
         
-        menuPane.getChildren().add(start);
+        menuPane.getChildren().add(newGame);
+        
+        if(service.isEmpty(1) && service.isEmpty(2)){
+            menuPane.getChildren().add(resume);
+        }
+        
         menuPane.getChildren().add(quit);
         menuPane.setAlignment(Pos.CENTER);
         
@@ -86,8 +97,8 @@ public class BattleshipsUi extends Application {
         shipPane2.getChildren().add(player2);
         shipPane2.getChildren().add(new Label(""));
         
-        gameBoard(player1Pane, 1, shipPane1, 2);
-        gameBoard(player2Pane, 2, shipPane2, 1);
+        gameBoard(player1Pane, shipPane1, 1, 2);
+        gameBoard(player2Pane, shipPane2, 2, 1);
         
         gameBoardPane.getChildren().add(shipPane1);
         gameBoardPane.getChildren().add(player1Pane);
@@ -96,6 +107,10 @@ public class BattleshipsUi extends Application {
         
         pane.getChildren().add(gameBoardPane);
         pane.getChildren().add(turn);
+        
+        if(turn.getText().endsWith("!")){
+            pane.getChildren().add(newGame);
+        }
         
         mainGamePane.setTop(back);
         mainGamePane.setCenter(pane);
@@ -107,7 +122,7 @@ public class BattleshipsUi extends Application {
         Scene gameScene = new Scene(mainGamePane);
         
         // Button actions
-        start.setOnAction((event) -> {
+        newGame.setOnAction((event) -> {
             
             try {
                 service.generateShips();
@@ -115,9 +130,11 @@ public class BattleshipsUi extends Application {
                 Logger.getLogger(BattleshipsUi.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            primaryStage.setScene(gameScene);
-            primaryStage.setFullScreen(true);
-            primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            switchScene(gameScene);
+        });
+        
+        resume.setOnAction((event) -> {
+            switchScene(gameScene);
         });
         
         quit.setOnAction((event) -> {
@@ -125,15 +142,11 @@ public class BattleshipsUi extends Application {
         });
         
         back.setOnAction((event) -> {
-            primaryStage.setScene(mainMenuScene);
-            primaryStage.setFullScreen(true);
-            primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+            switchScene(mainMenuScene);
         });
         
         primaryStage.setTitle("BattleShips");
-        primaryStage.setScene(mainMenuScene);
-        primaryStage.setFullScreen(true);
-        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        switchScene(mainMenuScene);
         primaryStage.show();
     }
     
@@ -142,13 +155,17 @@ public class BattleshipsUi extends Application {
         service.clear();
     }
     
-    private void gameBoard(GridPane pane, int player, VBox ships, int opponent){
+    private void gameBoard(GridPane pane, VBox ships, int player, int opponent){
         
         for(int i = 1 ; i <= 10 ; i++){
             for(int j = 1 ; j <= 10 ; j++){
                 Button button = new Button(" ");
                 button.setFont(Font.font("Monospaced", 30));
                 pane.add(button, i + 1, j + 1);
+                
+                if(turn.getText().endsWith(String.valueOf(player))){
+                    pane.setGridLinesVisible(true);
+                }
                 
                 int x = i;
                 int y = j;
@@ -190,6 +207,8 @@ public class BattleshipsUi extends Application {
                     }
                     
                 });
+                
+                pane.setGridLinesVisible(false);
             }
         }
         
@@ -202,6 +221,12 @@ public class BattleshipsUi extends Application {
         for(int i = 1 ; i <= 10 ; i++){
             pane.add(new Label(String.valueOf(i)), 0, i + 1);
         }
+    }
+    
+    private void switchScene(Scene scene){
+        primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
     }
     
     public static void main(String[] args){
