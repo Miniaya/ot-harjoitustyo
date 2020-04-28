@@ -1,6 +1,9 @@
 ## Rakenne
 
 Ohjelman rakenne noudattaa kolmitasoista kerrosarkkitehtuuria. Koodin pakkausrakenne on seuraava:
+![alt_text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/pakkauskaavio.png)
+
+Pakkaus _battleships.ui_ sisältää JavaFX:llä toteutetun graafisen käyttöliittymän, _battleships.domain_ sovelluslogiikan ja _battleships.dao_ tietojen talletuksesta vastaavan koodin.
 
 ## Sovelluslogiikka
 
