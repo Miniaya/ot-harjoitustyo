@@ -28,7 +28,7 @@ Ohjelman käynnistäminen onnistuu NetBeansin kautta tai komentorivillä komenno
 
 ### Suoritettavan jarin generointi
 
-`mvn package` generoi kansioon target jar-tiedoston Battleships-1.0-SNAPSHOT.jar
+`mvn package` generoi kansioon target jar-tiedoston _Battleships-1.0-SNAPSHOT.jar_
 
 ### Testaus
 
@@ -36,10 +36,16 @@ Testit suoritetaan komennolla `mvn test`
 
 Testikattavuusraportti luodaan komennolla `mvn test jacoco:report`
 
-Kattavuusraporttia voi tarkastella avaamalla selaimessa tiedosto target/site/jacoco/index.html
+Kattavuusraporttia voi tarkastella avaamalla selaimessa tiedosto _target/site/jacoco/index.html_
 
 ### Checkstyle
 
 Tiedostoon checkstyle.xml määritellyt tarkistukset suoritetaan komennolla `mvn jxr:jxr checkstyle:checkstyle`
 
-Mahdollisia virheitä voi tarkastella avaamalla selaimessa tiedost target/site/checkstyle.html
+Mahdollisia virheitä voi tarkastella avaamalla selaimessa tiedosto _target/site/checkstyle.html_
+
+### JavaDoc
+
+JavaDoc generoidaan komennolla `mvn javadoc:javadoc`
+
+JavaDocia voi tarkastella avaamalla selaimessa tiedosto _target/site/apidocs/index.html_
