@@ -3,8 +3,22 @@ package battleships.dao;
 import battleships.domain.Ship;
 import java.sql.*;
 
+/**
+ * Luokka hallinnoi suoraan tietokantaan tallennettuja arvoja.
+ */
 public class SQLShipDao implements ShipDao {
     
+    /**
+     * Metodi lisää parametrina annetun laivan tietokantaan.
+     * 
+     * @param ship
+     * 
+     * @see battleships.dao.ShipDao#create(battleships.domain.Ship) 
+     * 
+     * @return true, mikäli lisääminen onnistuu, muuten false
+     * 
+     * @throws SQLException 
+     */
     @Override
     public boolean create(Ship ship) throws SQLException {
         
@@ -32,6 +46,19 @@ public class SQLShipDao implements ShipDao {
         
     }
     
+    /**
+     * Metodi lisää parametrina annetun laivan annettuihin koordinaatteihin.
+     * 
+     * @param ship
+     * @param x
+     * @param y
+     * 
+     * @see battleships.dao.ShipDao#addCoordinates(battleships.domain.Ship, int, int) 
+     * 
+     * @return true, mikäli lisääminen onnistuu, muuten false
+     * 
+     * @throws SQLException 
+     */
     @Override
     public boolean addCoordinates(Ship ship, int x, int y) throws SQLException {
         
@@ -60,6 +87,20 @@ public class SQLShipDao implements ShipDao {
         }
     }
     
+    /**
+     * Metodi etsii parametrina annetuista koordinaateista annetun pelaajan laivaa
+     * 
+     * @param x
+     * @param y
+     * @param player
+     * @param conn
+     * 
+     * @see battleships.dao.ShipDao#findByCoordinates(int, int, int, java.sql.Connection) 
+     * 
+     * @return -1, mikäli koordinaateissa ei ole laivaa, muuten laivan id:n
+     * 
+     * @throws SQLException 
+     */
     @Override
     public int findByCoordinates(int x, int y, int player, Connection conn) throws SQLException {
         
@@ -95,11 +136,16 @@ public class SQLShipDao implements ShipDao {
         
     }
     
-    @Override
-    public void update(Ship ship, Connection conn) throws SQLException {
-        
-    }
-    
+    /**
+     * Metodi poistaa parametrina annetun laivan tietokannasta.
+     * 
+     * @param id
+     * @param conn
+     * 
+     * @see battleships.dao.ShipDao#deleteShip(int, java.sql.Connection) 
+     * 
+     * @throws SQLException 
+     */
     @Override
     public void deleteShip(int id, Connection conn) throws SQLException {
         
@@ -118,6 +164,16 @@ public class SQLShipDao implements ShipDao {
         }
     }
     
+    /**
+     * Metodi poistaa parametrina annetuista koordinaateista laivan, jonka id on annettu.
+     * 
+     * @param x
+     * @param y
+     * @param conn
+     * @param id
+     * 
+     * @throws SQLException 
+     */
     public void sinkPart(int x, int y, Connection conn, int id) throws SQLException {
         
         try {
@@ -139,6 +195,17 @@ public class SQLShipDao implements ShipDao {
         }
     }
     
+    /**
+     * Metodi kertoo, onko parametrina annettu laiva upotettu, eli onko laivalla
+     * enää ainuttakaan koordinaattia tietokannassa.
+     * 
+     * @param id
+     * @param conn
+     * 
+     * @return true, mikäli laiva on upotettu, muuten false
+     * 
+     * @throws SQLException 
+     */
     public boolean isSunk(int id, Connection conn) throws SQLException {
         
         try {
@@ -171,6 +238,16 @@ public class SQLShipDao implements ShipDao {
         }
     }
     
+    /**
+     * Metodi kertoo, mikä laivatyyppi vastaa parametrina annettua laivan id:tä.
+     * 
+     * @param id
+     * @param conn
+     * 
+     * @return laivan tyyppi, mikäli laiva löytyy tietokannasta, muuten null
+     * 
+     * @throws SQLException 
+     */
     public String getShip(int id, Connection conn) throws SQLException {
         
         try {
@@ -206,6 +283,14 @@ public class SQLShipDao implements ShipDao {
         }
     }
     
+    /**
+     * Metodi poistaa tietokantataulujen Ships ja Positioning sisällöt.
+     * 
+     * @param conn
+     * 
+     * @return true, mikäli poisto onnistuu, muuten false
+     * @throws SQLException 
+     */
     public boolean clearTables(Connection conn) throws SQLException {
         
         try {
@@ -230,6 +315,16 @@ public class SQLShipDao implements ShipDao {
         }
     }
     
+    /**
+     * Metodi kertoo, onko annetulla pelaajalla enää pinnalla olevia laivoja.
+     * 
+     * @param player
+     * @param conn
+     * 
+     * @return true, mikäli laivoja ei ole, muuten false
+     * 
+     * @throws SQLException 
+     */
     public boolean isEmpty(int player, Connection conn) throws SQLException {
         
         try {

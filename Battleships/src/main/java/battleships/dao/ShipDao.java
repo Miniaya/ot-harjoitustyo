@@ -11,7 +11,5 @@ public interface ShipDao {
     
     int findByCoordinates(int x, int y, int player, Connection conn) throws SQLException;
     
-    void update(Ship ship, Connection conn) throws SQLException;
-    
     void deleteShip(int id, Connection conn) throws SQLException;
 }

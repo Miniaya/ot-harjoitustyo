@@ -1,5 +1,11 @@
 package battleships.domain;
 
+/**
+ * Luokkaa käytetään luomaan pelissä tarvittavat laivat
+ * ja se tarjoaa laivan käsittelyyn tarvittavat metodit.
+ * 
+ */
+
 public class Ship {
     
     private ShipType type;
@@ -30,6 +36,11 @@ public class Ship {
         this.owner = owner;
     }
     
+    /**
+     * @see battleships.domain.ShipType#size
+     * 
+     * @return laivatyypin pituus
+     */
     public int length() {
         return type.getSize();
     }
