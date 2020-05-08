@@ -8,6 +8,28 @@ import java.sql.*;
  */
 public class SQLShipDao implements ShipDao {
     
+    private String db;
+    
+    public SQLShipDao(String db){
+        
+        this.db = db;
+    }
+    
+    public Connection getConnection() throws SQLException {
+        
+        String url = "jdbc:sqlite:" + db;
+        
+        Connection conn = DriverManager.getConnection(url);
+        
+        return conn;
+    }
+    
+    public void closeConnection(Connection conn, Statement stmt) throws SQLException {
+        
+        stmt.close();
+        conn.close();
+    }
+    
     /**
      * Metodi lisää parametrina annetun laivan tietokantaan.
      * 
@@ -22,7 +44,7 @@ public class SQLShipDao implements ShipDao {
     @Override
     public boolean create(Ship ship) throws SQLException {
         
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
+        Connection conn = getConnection();
         
         try {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Ships (type_id, owner) VALUES ((SELECT id FROM Shiptypes WHERE type = ?), ?)");
@@ -32,8 +54,7 @@ public class SQLShipDao implements ShipDao {
         
             stmt.executeUpdate();
             
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
             return true;
             
@@ -62,7 +83,7 @@ public class SQLShipDao implements ShipDao {
     @Override
     public boolean addCoordinates(Ship ship, int x, int y) throws SQLException {
         
-        Connection conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
+        Connection conn = getConnection();
         
         try {
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO Positioning (ship_id, x, y) VALUES ((SELECT id FROM Ships WHERE type_id = (SELECT id FROM Shiptypes WHERE type = ?) AND owner = ?), ?, ?)");
@@ -74,8 +95,7 @@ public class SQLShipDao implements ShipDao {
             
             stmt.executeUpdate();
             
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
             return true;
             
@@ -93,7 +113,6 @@ public class SQLShipDao implements ShipDao {
      * @param x
      * @param y
      * @param player
-     * @param conn
      * 
      * @see battleships.dao.ShipDao#findByCoordinates(int, int, int, java.sql.Connection) 
      * 
@@ -102,7 +121,9 @@ public class SQLShipDao implements ShipDao {
      * @throws SQLException 
      */
     @Override
-    public int findByCoordinates(int x, int y, int player, Connection conn) throws SQLException {
+    public int findByCoordinates(int x, int y, int player) throws SQLException {
+        
+        Connection conn = getConnection();
         
         try {
             
@@ -121,8 +142,7 @@ public class SQLShipDao implements ShipDao {
             }
             
             r.close();
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
             return ans;
             
@@ -140,14 +160,15 @@ public class SQLShipDao implements ShipDao {
      * Metodi poistaa parametrina annetun laivan tietokannasta.
      * 
      * @param id
-     * @param conn
      * 
      * @see battleships.dao.ShipDao#deleteShip(int, java.sql.Connection) 
      * 
      * @throws SQLException 
      */
     @Override
-    public void deleteShip(int id, Connection conn) throws SQLException {
+    public void deleteShip(int id) throws SQLException {
+        
+        Connection conn = getConnection();
         
         try {
             
@@ -156,8 +177,7 @@ public class SQLShipDao implements ShipDao {
             
             stmt.executeUpdate();
             
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
         } catch (SQLException e) {
             conn.close();
@@ -169,12 +189,13 @@ public class SQLShipDao implements ShipDao {
      * 
      * @param x
      * @param y
-     * @param conn
      * @param id
      * 
      * @throws SQLException 
      */
-    public void sinkPart(int x, int y, Connection conn, int id) throws SQLException {
+    public void sinkPart(int x, int y, int id) throws SQLException {
+        
+        Connection conn = getConnection();
         
         try {
             
@@ -185,8 +206,7 @@ public class SQLShipDao implements ShipDao {
             
             stmt.executeUpdate();
             
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
         } catch (SQLException e) {
             
@@ -200,13 +220,14 @@ public class SQLShipDao implements ShipDao {
      * enää ainuttakaan koordinaattia tietokannassa.
      * 
      * @param id
-     * @param conn
      * 
      * @return true, mikäli laiva on upotettu, muuten false
      * 
      * @throws SQLException 
      */
-    public boolean isSunk(int id, Connection conn) throws SQLException {
+    public boolean isSunk(int id) throws SQLException {
+        
+        Connection conn = getConnection();
         
         try {
             
@@ -224,8 +245,7 @@ public class SQLShipDao implements ShipDao {
             } 
             
             r.close();
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
             return isSunk;
             
@@ -242,13 +262,14 @@ public class SQLShipDao implements ShipDao {
      * Metodi kertoo, mikä laivatyyppi vastaa parametrina annettua laivan id:tä.
      * 
      * @param id
-     * @param conn
      * 
      * @return laivan tyyppi, mikäli laiva löytyy tietokannasta, muuten null
      * 
      * @throws SQLException 
      */
-    public String getShip(int id, Connection conn) throws SQLException {
+    public String getShip(int id) throws SQLException {
+        
+        Connection conn = getConnection();
         
         try {
             
@@ -269,8 +290,7 @@ public class SQLShipDao implements ShipDao {
             }
             
             r.close();
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
             return type;
             
@@ -286,12 +306,12 @@ public class SQLShipDao implements ShipDao {
     /**
      * Metodi poistaa tietokantataulujen Ships ja Positioning sisällöt.
      * 
-     * @param conn
-     * 
      * @return true, mikäli poisto onnistuu, muuten false
      * @throws SQLException 
      */
-    public boolean clearTables(Connection conn) throws SQLException {
+    public boolean clearTables() throws SQLException {
+        
+        Connection conn = getConnection();
         
         try {
             
@@ -319,13 +339,14 @@ public class SQLShipDao implements ShipDao {
      * Metodi kertoo, onko annetulla pelaajalla enää pinnalla olevia laivoja.
      * 
      * @param player
-     * @param conn
      * 
      * @return true, mikäli laivoja ei ole, muuten false
      * 
      * @throws SQLException 
      */
-    public boolean isEmpty(int player, Connection conn) throws SQLException {
+    public boolean isEmpty(int player) throws SQLException {
+        
+        Connection conn = getConnection();
         
         try {
             
@@ -342,8 +363,7 @@ public class SQLShipDao implements ShipDao {
             }
             
             r.close();
-            stmt.close();
-            conn.close();
+            closeConnection(conn, stmt);
             
             return empty;
             

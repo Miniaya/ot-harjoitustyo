@@ -3,8 +3,6 @@ package battleships.domain;
 
 import battleships.dao.SQLShipDao;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import java.util.Random;
@@ -15,7 +13,6 @@ import java.util.Random;
 public class ShipService {
     
     private SQLShipDao shipDao;
-    private Connection connection;
     
     private Random r;
     
@@ -33,8 +30,8 @@ public class ShipService {
     private Ship submarine2;
     private Ship destroyer2;
     
-    public ShipService() throws SQLException {
-        shipDao = new SQLShipDao();
+    public ShipService(SQLShipDao shipDao) throws SQLException {
+        this.shipDao = shipDao;
         
         r = new Random();
         
@@ -89,9 +86,7 @@ public class ShipService {
      */
     public int isShip(int x, int y, int player) throws SQLException {
         
-        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        
-        return shipDao.findByCoordinates(x, y, player, connection);
+        return shipDao.findByCoordinates(x, y, player);
     }
     
     /**
@@ -103,8 +98,7 @@ public class ShipService {
      */
     public void clear() throws SQLException {
         
-        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        shipDao.clearTables(connection);
+        shipDao.clearTables();
     }
     
     /**
@@ -146,8 +140,7 @@ public class ShipService {
      */
     public void sink(int x, int y, int id) throws SQLException {
         
-        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        shipDao.sinkPart(x, y, connection, id);
+        shipDao.sinkPart(x, y, id);
     }
     
     /**
@@ -165,15 +158,11 @@ public class ShipService {
      */
     public String isSink(int id) throws SQLException {
         
-        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        
-        if (shipDao.isSunk(id, connection)) {
+        if (shipDao.isSunk(id)) {
             
-            connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-            String ship = shipDao.getShip(id, connection);
+            String ship = shipDao.getShip(id);
             
-            connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-            shipDao.deleteShip(id, connection);
+            shipDao.deleteShip(id);
             
             return ship;
             
@@ -197,9 +186,7 @@ public class ShipService {
      */
     public boolean isEmpty(int player) throws SQLException {
         
-        connection = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        
-        return shipDao.isEmpty(player, connection);
+        return shipDao.isEmpty(player);
     }
     
     private boolean isValidate(int x, int y, double direction, int length, int player) throws SQLException {

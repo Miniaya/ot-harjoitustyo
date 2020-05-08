@@ -1,5 +1,6 @@
 package battleships.ui;
 
+import battleships.dao.SQLShipDao;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -13,13 +14,20 @@ import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.scene.input.KeyCombination;
 
 import java.sql.SQLException;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Properties;
 
 import battleships.domain.ShipService;
-import javafx.scene.input.KeyCombination;
 
 public class BattleshipsUi extends Application {
     
@@ -28,9 +36,17 @@ public class BattleshipsUi extends Application {
     private Stage primaryStage;
     
     @Override
-    public void init() throws SQLException {
+    public void init() throws SQLException, FileNotFoundException, IOException {
         
-        service = new ShipService();
+        Properties properties = new Properties();
+        
+        properties.load(new FileInputStream("config.properties"));
+        
+        String shipDB = properties.getProperty("shipDB");
+        
+        SQLShipDao shipDao = new SQLShipDao(shipDB);
+        
+        service = new ShipService(shipDao);
         
     }
     
