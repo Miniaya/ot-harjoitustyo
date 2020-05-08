@@ -19,7 +19,6 @@ public class SQLShipDaoTest {
     Ship bl;
     Ship carr;
     SQLShipDao d;
-    Connection conn;
     
     @BeforeClass
     public static void setUpClass() {
@@ -33,7 +32,7 @@ public class SQLShipDaoTest {
     public void setUp() throws SQLException {
         bl = new Ship(ShipType.BATTLESHIP, 1);
         carr = new Ship(ShipType.CARRIER, 2);
-        d = new SQLShipDao();
+        d = new SQLShipDao("test.db");
         
         d.create(bl);
         d.addCoordinates(bl, 2, 2);
@@ -55,24 +54,19 @@ public class SQLShipDaoTest {
     @Test
     public void findByCoordinatesReturnsCorrectId() throws SQLException {
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        
-        assertEquals(1, d.findByCoordinates(2, 2, 1, conn));
+        assertEquals(1, d.findByCoordinates(2, 2, 1));
     }
     
     @Test
     public void findByCoordinatesReturnsNegative() throws SQLException {
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        
-        assertEquals(-1, d.findByCoordinates(2, 2, 2, conn));
+        assertEquals(-1, d.findByCoordinates(2, 2, 2));
     }
     
     @Test
     public void getShipReturnsType() throws SQLException {
-        
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        String type = d.getShip(1, conn);
+       
+        String type = d.getShip(1);
         
         assertEquals("battleship", type);
     }
@@ -80,8 +74,7 @@ public class SQLShipDaoTest {
     @Test
     public void getShipReturnsNull() throws SQLException {
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        String type = d.getShip(3, conn);
+        String type = d.getShip(3);
         
         assertEquals(null, type);
     }
@@ -89,40 +82,33 @@ public class SQLShipDaoTest {
     @Test
     public void isSunkReturnsTrue() throws SQLException {
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        d.sinkPart(2, 2, conn, 1);
+        d.sinkPart(2, 2, 1);
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        assertTrue(d.isSunk(1, conn));
+        assertTrue(d.isSunk(1));
     }
     
     @Test
     public void isSunkReturnsFalse() throws SQLException {
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        
-        assertFalse(d.isSunk(2, conn));
+        assertFalse(d.isSunk(2));
     }
     
     @Test
     public void isEmptyReturnsFalse() throws SQLException {
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        assertFalse(d.isEmpty(2, conn));
+        assertFalse(d.isEmpty(2));
     }
     
     @Test
     public void isEmptyReturnsTrue() throws SQLException {
         
-         conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-         assertTrue(d.isEmpty(3, conn));
+        assertTrue(d.isEmpty(3));
     }
     
     @After
     public void tearDown() throws SQLException {
         
-        conn = DriverManager.getConnection("jdbc:sqlite:ships.db");
-        d.clearTables(conn);
+        d.clearTables();
     }
 
 }

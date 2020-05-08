@@ -11,7 +11,7 @@ public class SQLShipDao implements ShipDao {
     
     private String db;
     
-    public SQLShipDao(String db){
+    public SQLShipDao(String db) {
         
         this.db = db;
     }
@@ -356,7 +356,7 @@ public class SQLShipDao implements ShipDao {
         ResultSet r = stmt.executeQuery();
         ArrayList<String> ships = new ArrayList<>();
         
-        while(r.next()) {
+        while (r.next()) {
             ships.add(r.getString(1));
         }
         

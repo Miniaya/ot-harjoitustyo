@@ -1,6 +1,8 @@
 
 package battleships.domain;
 
+import battleships.dao.SQLShipDao;
+
 import java.sql.SQLException;
 
 import org.junit.After;
@@ -8,6 +10,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 public class ShipServiceTest {
@@ -25,7 +28,8 @@ public class ShipServiceTest {
     
     @Before
     public void setUp() throws SQLException {
-        ser = new ShipService();
+        SQLShipDao shipDao = new SQLShipDao("test.db");
+        ser = new ShipService(shipDao);
         ship = new Ship(ShipType.BATTLESHIP, 1);
     }
     
@@ -52,9 +56,9 @@ public class ShipServiceTest {
         assertFalse(ser.isEmpty(2));
     }
     
-    @Test
-    public void isSinkReturnsType() throws SQLException {
-        assertEquals("carrier", ser.isSink(1));
-    }
+//    @Test
+//    public void isSinkReturnsType() throws SQLException {
+//        assertEquals("carrier", ser.isSink(1));
+//    }
 
 }
