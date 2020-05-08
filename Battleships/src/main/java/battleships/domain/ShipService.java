@@ -4,6 +4,8 @@ package battleships.domain;
 import battleships.dao.SQLShipDao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import java.util.Random;
 
@@ -43,14 +45,6 @@ public class ShipService {
         submarine1 = new Ship(ShipType.SUBMARINE, 1);
         destroyer1 = new Ship(ShipType.DESTROYER, 1);
         
-        // add ships to database
-        shipDao.create(carrier1);
-        shipDao.create(battleship1);
-        shipDao.create(cruiser1);
-        shipDao.create(rowboat1);
-        shipDao.create(submarine1);
-        shipDao.create(destroyer1);
-        
         // Player 2
         carrier2 = new Ship(ShipType.CARRIER, 2);
         battleship2 = new Ship(ShipType.BATTLESHIP, 2);
@@ -58,14 +52,6 @@ public class ShipService {
         rowboat2 = new Ship(ShipType.ROWBOAT, 2);
         submarine2 = new Ship(ShipType.SUBMARINE, 2);
         destroyer2 = new Ship(ShipType.DESTROYER, 2);
-        
-        // add ships to database
-        shipDao.create(carrier2);
-        shipDao.create(battleship2);
-        shipDao.create(cruiser2);
-        shipDao.create(rowboat2);
-        shipDao.create(submarine2);
-        shipDao.create(destroyer2);
         
     }
     
@@ -89,6 +75,11 @@ public class ShipService {
         return shipDao.findByCoordinates(x, y, player);
     }
     
+    public void addMissed(int x, int y, int player) throws SQLException {
+        
+        shipDao.addMissed(x, y, player);
+    }
+    
     /**
      * Metodi tyhjentää tietokannan turhista tiedoista.
      * 
@@ -109,6 +100,21 @@ public class ShipService {
      * @throws SQLException 
      */
     public void generateShips() throws SQLException {
+        
+        // add ships to database
+        shipDao.create(carrier1);
+        shipDao.create(battleship1);
+        shipDao.create(cruiser1);
+        shipDao.create(rowboat1);
+        shipDao.create(submarine1);
+        shipDao.create(destroyer1);
+        
+        shipDao.create(carrier2);
+        shipDao.create(battleship2);
+        shipDao.create(cruiser2);
+        shipDao.create(rowboat2);
+        shipDao.create(submarine2);
+        shipDao.create(destroyer2);
         
         generateCoordinates(carrier1);
         generateCoordinates(battleship1);
@@ -162,7 +168,7 @@ public class ShipService {
             
             String ship = shipDao.getShip(id);
             
-            shipDao.deleteShip(id);
+            shipDao.sinkShip(id);
             
             return ship;
             
@@ -187,6 +193,27 @@ public class ShipService {
     public boolean isEmpty(int player) throws SQLException {
         
         return shipDao.isEmpty(player);
+    }
+    
+    public Integer[][] getHits(int player) throws SQLException {
+        
+        Integer[][] hits = new Integer[11][11];
+        
+        for (int i = 0; i <= 10; i++) {
+            for (int j = 0; j <= 10; j++) {
+                hits[i][j] = 0;
+            }
+        }
+        
+        hits = shipDao.getMissed(player, hits);
+        hits = shipDao.getSinkCoordinates(player, hits);
+        
+        return hits;
+    }
+    
+    public ArrayList<String> getSunk(int player) throws SQLException {
+        
+        return shipDao.getSunkShips(player);
     }
     
     private boolean isValidate(int x, int y, double direction, int length, int player) throws SQLException {

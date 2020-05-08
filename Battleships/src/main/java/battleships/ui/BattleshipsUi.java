@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCombination;
+import javafx.scene.Node;
 
 import java.sql.SQLException;
 
@@ -28,6 +29,7 @@ import java.util.logging.Logger;
 import java.util.Properties;
 
 import battleships.domain.ShipService;
+import java.util.Arrays;
 
 public class BattleshipsUi extends Application {
     
@@ -47,7 +49,6 @@ public class BattleshipsUi extends Application {
         SQLShipDao shipDao = new SQLShipDao(shipDB);
         
         service = new ShipService(shipDao);
-        
     }
     
     @Override
@@ -70,12 +71,9 @@ public class BattleshipsUi extends Application {
         quit.setFont(Font.font("Monospaced", 30));
         
         menuPane.getChildren().add(newGame);
-        
-        if(service.isEmpty(1) && service.isEmpty(2)){
-            menuPane.getChildren().add(resume);
-        }
-        
+        menuPane.getChildren().add(resume);
         menuPane.getChildren().add(quit);
+        
         menuPane.setAlignment(Pos.CENTER);
         
         mainPane.setCenter(menuPane);
@@ -124,10 +122,6 @@ public class BattleshipsUi extends Application {
         pane.getChildren().add(gameBoardPane);
         pane.getChildren().add(turn);
         
-        if(turn.getText().endsWith("!")){
-            pane.getChildren().add(newGame);
-        }
-        
         mainGamePane.setTop(back);
         mainGamePane.setCenter(pane);
         
@@ -141,7 +135,24 @@ public class BattleshipsUi extends Application {
         newGame.setOnAction((event) -> {
             
             try {
+                service.clear();
+                
+                clearGameboard(player1Pane);
+                clearGameboard(player2Pane);
+                
+                shipPane1.getChildren().clear();
+                shipPane2.getChildren().clear();
+                
+                shipPane1.getChildren().add(player1);
+                shipPane1.getChildren().add(new Label(""));
+        
+                shipPane2.getChildren().add(player2);
+                shipPane2.getChildren().add(new Label(""));
+                
+                turn.setText("Whose turn: Player 1");
+                
                 service.generateShips();
+                
             } catch (SQLException ex) {
                 Logger.getLogger(BattleshipsUi.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -150,6 +161,35 @@ public class BattleshipsUi extends Application {
         });
         
         resume.setOnAction((event) -> {
+            
+            try {
+                
+                initializeGameboard(player1Pane, 1);
+                initializeGameboard(player2Pane, 2);
+                
+                if (shipPane1.getChildren().size() == 2) {
+                
+                    for (String ship : service.getSunk(1)) {
+                        Label label = new Label(ship);
+                        label.setFont(Font.font("Monospaced", 20));
+                        shipPane1.getChildren().add(label);
+                    }
+                }
+                
+                if (shipPane2.getChildren().size() == 2) {
+                
+                    for (String ship : service.getSunk(2)) {
+                        Label label = new Label(ship);
+                        label.setFont(Font.font("Monospaced", 20));
+                        shipPane2.getChildren().add(label);
+                    }
+                
+                }
+                
+            } catch (SQLException ex) {
+                Logger.getLogger(BattleshipsUi.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
             switchScene(gameScene);
         });
         
@@ -168,7 +208,6 @@ public class BattleshipsUi extends Application {
     
     @Override
     public void stop() throws SQLException {
-        service.clear();
     }
     
     private void gameBoard(GridPane pane, VBox ships, int player, int opponent){
@@ -178,10 +217,6 @@ public class BattleshipsUi extends Application {
                 Button button = new Button(" ");
                 button.setFont(Font.font("Monospaced", 30));
                 pane.add(button, i + 1, j + 1);
-                
-                if(turn.getText().endsWith(String.valueOf(player))){
-                    pane.setGridLinesVisible(true);
-                }
                 
                 int x = i;
                 int y = j;
@@ -212,6 +247,7 @@ public class BattleshipsUi extends Application {
                             
                             button.setText("X");
                             turn.setText("Whose turn: Player " + opponent);
+                            service.addMissed(x, y, player);
                         }
                         
                         if (service.isEmpty(player)) {
@@ -243,6 +279,39 @@ public class BattleshipsUi extends Application {
         primaryStage.setScene(scene);
         primaryStage.setFullScreen(true);
         primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+    }
+    
+    private void clearGameboard(GridPane pane) {
+        
+        for(Node node : pane.getChildren()) {
+            
+            if(node instanceof Button){
+                ((Button) node).setText(" ");
+                ((Button) node).setTextFill(Color.BLACK);
+            }
+        }
+    }
+    
+    private void initializeGameboard(GridPane pane, int player) throws SQLException {
+        
+        Integer[][] hits = service.getHits(player);
+        
+        for(Node node : pane.getChildren()) {
+            
+            if(node instanceof Button) {
+                
+                int hit = hits[GridPane.getColumnIndex(node) - 1][GridPane.getRowIndex(node) - 1];
+                
+                if(hit == 1) {
+                    ((Button) node).setText("X");
+                }
+                
+                if(hit == 2) {
+                    ((Button) node).setText("O");
+                    ((Button) node).setTextFill(Color.RED);
+                }
+            }
+        }
     }
     
     public static void main(String[] args){
