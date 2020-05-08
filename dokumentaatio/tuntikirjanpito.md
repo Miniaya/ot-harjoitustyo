@@ -15,4 +15,9 @@
 |19.4. | 4    | Kaksinpeli ja siihen liittyvät parannukset|
 |      | 1    | Checkstyle-virheiden korjaus|
 |21.4. | 2    | Testit ja jarin generointi
-|Yhteensä | 24 |          |
+|26.4. | 1    | Tietokonevastustajan aloittaminen |
+|28.4. | 1    | Käyttöliittymän toiminnallisuuksien toteuttaminen eri tavalla |
+|      | 1    | JavaDocin kirjoittaminen |
+|      | 1    | Muun dokumentaation kirjoittaminen |
+|      | 1    | Uusien testien kirjoittaminen ja Checkstylevirheiden korjaus |
+|Yhteensä | 29 |          |
