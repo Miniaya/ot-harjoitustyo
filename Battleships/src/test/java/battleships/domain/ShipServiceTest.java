@@ -4,6 +4,7 @@ package battleships.domain;
 import battleships.dao.SQLShipDao;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,18 +18,11 @@ public class ShipServiceTest {
     
     ShipService ser;
     Ship ship;
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    SQLShipDao shipDao;
     
     @Before
     public void setUp() throws SQLException {
-        SQLShipDao shipDao = new SQLShipDao("test.db");
+        shipDao = new SQLShipDao("test.db");
         ser = new ShipService(shipDao);
         ship = new Ship(ShipType.BATTLESHIP, 1);
     }
@@ -56,9 +50,50 @@ public class ShipServiceTest {
         assertFalse(ser.isEmpty(2));
     }
     
-//    @Test
-//    public void isSinkReturnsType() throws SQLException {
-//        assertEquals("carrier", ser.isSink(1));
-//    }
+    @Test
+    public void isSinkReturnsType() throws SQLException {
+        shipDao.create(ship);
+        shipDao.addCoordinates(ship, 1, 1);
+        
+        ser.sink(1, 1, 1);
+        
+        assertEquals("battleship", ser.isSink(1));
+    }
+    
+    @Test
+    public void isSinkReturnsNull() throws SQLException {
+        shipDao.create(ship);
+        shipDao.addCoordinates(ship, 1, 1);
+        
+        assertEquals(null, ser.isSink(1));
+    }
+    
+    @Test
+    public void getHitsReturnsMissedAndHits() throws SQLException {
+        ser.addMissed(2, 2, 1);
+        shipDao.create(ship);
+        shipDao.addCoordinates(ship, 1, 1);
+        
+        ser.sink(1, 1, 1);
+        
+        Integer hits[][] = ser.getHits(1);
+        
+        int missed = hits[2][2];
+        int shot = hits[1][1];
+        
+        assertEquals(1, missed);
+        assertEquals(2, shot);
+    }
+    
+    @Test
+    public void getSunkReturnsType() throws SQLException {
+        shipDao.create(ship);
+        shipDao.addCoordinates(ship, 1, 1);
+        shipDao.sinkShip(1);
+        
+        ArrayList<String> ships = ser.getSunk(1);
+        
+        assertEquals("battleship", ships.get(0));
+    }
 
 }

@@ -13,20 +13,13 @@ import battleships.domain.Ship;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class SQLShipDaoTest {
     
     Ship bl;
     Ship carr;
     SQLShipDao d;
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
     
     @Before
     public void setUp() throws SQLException {
@@ -103,6 +96,47 @@ public class SQLShipDaoTest {
     public void isEmptyReturnsTrue() throws SQLException {
         
         assertTrue(d.isEmpty(3));
+    }
+    
+    @Test
+    public void addMissedWorks() throws SQLException {
+        
+        d.addMissed(1, 1, 1);
+        Integer[][] arr = new Integer[2][2];
+        arr = d.getMissed(1, arr);
+        int ans = arr[1][1];
+        
+        assertEquals(1, ans);
+    }
+    
+    @Test
+    public void getSunkShipsReturnsType() throws SQLException {
+        
+        d.sinkShip(1);
+        
+        ArrayList<String> ships = d.getSunkShips(1);
+        
+        assertEquals("battleship", ships.get(0));
+    }
+    
+    @Test
+    public void getSunkReturnsEmptyList() throws SQLException {
+        
+        ArrayList<String> ships = d.getSunkShips(1);
+        
+        assertEquals(0, ships.size());
+    }
+    
+    @Test
+    public void getSinkCoordinatesWorks() throws SQLException {
+        
+        d.sinkPart(2, 2, 1);
+        
+        Integer[][] arr = new Integer[3][3];
+        arr = d.getSinkCoordinates(1, arr);
+        int ans = arr[2][2];
+        
+        assertEquals(2, ans);
     }
     
     @After
