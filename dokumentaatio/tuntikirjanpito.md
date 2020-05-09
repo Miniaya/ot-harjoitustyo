@@ -23,4 +23,5 @@
 |8.5.  | 1    | Sovelluksen konfiguraatiot |
 |      | 1    | Tietokannan järkevöittäminen |
 |      | 4    | Uusi peli / jatka peliä toimivat oikein |
-|Yhteensä | 35 |          |
+|9.5.  | 1    | Parempi testikattavuus |
+|Yhteensä | 36 |          |
