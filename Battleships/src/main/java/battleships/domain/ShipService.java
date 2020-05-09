@@ -63,7 +63,7 @@ public class ShipService {
      * @param y
      * @param player
      * 
-     * @see battleships.dao.SQLShipDao#findByCoordinates(int, int, int, java.sql.Connection)
+     * @see battleships.dao.SQLShipDao#findByCoordinates(int, int, int)
      * 
      * @return Laivan indeksin, mikäli ruudussa on laiva, 
      * tai -1, mikäli kyseisessä ruudussa ei ole laivaa
@@ -75,6 +75,18 @@ public class ShipService {
         return shipDao.findByCoordinates(x, y, player);
     }
     
+    /**
+     * Metodi lisää tietokantaan koordinaatit, johon pelaaja ampui, ja jossa ei 
+     * ollut laivaa.
+     * 
+     * @param x
+     * @param y
+     * @param player
+     * 
+     * @see battleships.dao.SQLShipDao#addMissed(int, int, int) 
+     * 
+     * @throws SQLException 
+     */
     public void addMissed(int x, int y, int player) throws SQLException {
         
         shipDao.addMissed(x, y, player);
@@ -83,7 +95,7 @@ public class ShipService {
     /**
      * Metodi tyhjentää tietokannan turhista tiedoista.
      * 
-     * @see battleships.dao.SQLShipDao#clearTables(java.sql.Connection) 
+     * @see battleships.dao.SQLShipDao#clearTables() 
      * 
      * @throws SQLException 
      */
@@ -140,7 +152,7 @@ public class ShipService {
      * @param y
      * @param id
      * 
-     * @see battleships.dao.SQLShipDao#sinkPart(int, int, java.sql.Connection, int) 
+     * @see battleships.dao.SQLShipDao#sinkPart(int, int, int) 
      * 
      * @throws SQLException 
      */
@@ -154,9 +166,9 @@ public class ShipService {
      * 
      * @param id
      * 
-     * @see battleships.dao.SQLShipDao#isSunk(int, java.sql.Connection) 
-     * @see battleships.dao.SQLShipDao#getShip(int, java.sql.Connection) 
-     * @see battleships.dao.SQLShipDao#deleteShip(int, java.sql.Connection) 
+     * @see battleships.dao.SQLShipDao#isSunk(int) 
+     * @see battleships.dao.SQLShipDao#getShip(int) 
+     * @see battleships.dao.SQLShipDao#sinkShip(int) 
      * 
      * @return laivan tyyppi, tai null, mikäli laiva ei ole uponnut kokonaan
      * 
@@ -183,7 +195,7 @@ public class ShipService {
      * Metodi kertoo, onko parametrina annetun pelaajan kaikki laivat upotettu.
      * 
      * @param player
-     * @see battleships.dao.SQLShipDao#isEmpty(int, java.sql.Connection) 
+     * @see battleships.dao.SQLShipDao#isEmpty(int) 
      * 
      * @return true, jos pelaajan kaikki laivat on upotettu, 
      * tai false, mikäli pelaajalla on vielä laivoja
@@ -195,6 +207,20 @@ public class ShipService {
         return shipDao.isEmpty(player);
     }
     
+    /**
+     * Metodi hakee tietokannasta ohi menneet ja osuneet osumat ja palauttaa ne kaksiulotteisessa taulukossa,
+     * joka vastaa pelilaudan koordinaatteja.
+     * 
+     * @param player
+     * 
+     * @see battleships.dao.SQLShipDao#getMissed(int, java.lang.Integer[][]) 
+     * @see battleships.dao.SQLShipDao#getSinkCoordinates(int, java.lang.Integer[][]) 
+     * 
+     * @return kaksiulotteinen taulukko, jossa ohiosumat on merkittu numerolla 1,
+     * ja osumat numerolla 2.
+     * 
+     * @throws SQLException 
+     */
     public Integer[][] getHits(int player) throws SQLException {
         
         Integer[][] hits = new Integer[11][11];
@@ -211,6 +237,15 @@ public class ShipService {
         return hits;
     }
     
+    /**
+     * Metodi hakee tietokannasta parametrina annetun pelaajan upottamien laivojen tyypit.
+     * 
+     * @param player
+     * 
+     * @return Lista upotettujen laivojen tyypeistä
+     * 
+     * @throws SQLException 
+     */
     public ArrayList<String> getSunk(int player) throws SQLException {
         
         return shipDao.getSunkShips(player);

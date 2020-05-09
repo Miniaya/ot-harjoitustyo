@@ -2,7 +2,9 @@
 package battleships.domain;
 
 
-
+/**
+ * Laivojen mahdolliset tyypit
+ */
 public enum ShipType {
     
     CARRIER(5),

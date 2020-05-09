@@ -16,6 +16,13 @@ public class SQLShipDao implements ShipDao {
         this.db = db;
     }
     
+    /**
+     * Metodi luo yhteyden konstruktorissa määriteltyyn tietokantaan
+     * 
+     * @return Yhteys tietokantaan
+     * 
+     * @throws SQLException 
+     */
     public Connection getConnection() throws SQLException {
         
         String url = "jdbc:sqlite:" + db;
@@ -25,6 +32,14 @@ public class SQLShipDao implements ShipDao {
         return conn;
     }
     
+    /**
+     * Metodi sulkee yhteyden parametreina annettuun tietokantaan ja statementtiin.
+     * 
+     * @param conn
+     * @param stmt
+     * 
+     * @throws SQLException 
+     */
     public void closeConnection(Connection conn, Statement stmt) throws SQLException {
         
         stmt.close();
@@ -160,6 +175,7 @@ public class SQLShipDao implements ShipDao {
      * 
      * @throws SQLException 
      */
+    @Override
     public void sinkPart(int x, int y, int id) throws SQLException {
         
         Connection conn = getConnection();
@@ -184,6 +200,7 @@ public class SQLShipDao implements ShipDao {
      * 
      * @throws SQLException 
      */
+    @Override
     public boolean isSunk(int id) throws SQLException {
         
         Connection conn = getConnection();
@@ -214,6 +231,7 @@ public class SQLShipDao implements ShipDao {
      * 
      * @throws SQLException 
      */
+    @Override
     public String getShip(int id) throws SQLException {
         
         Connection conn = getConnection();
@@ -273,6 +291,7 @@ public class SQLShipDao implements ShipDao {
      * 
      * @throws SQLException 
      */
+    @Override
     public boolean isEmpty(int player) throws SQLException {
         
         Connection conn = getConnection();
@@ -294,6 +313,16 @@ public class SQLShipDao implements ShipDao {
         return empty;
     }
     
+    /**
+     * Metodi lisää tietokantaan koordinaatit kohtaan, johon pelaaja ampui, mutta jossa ei ollut laivaa.
+     * 
+     * @param x
+     * @param y
+     * @param player
+     * 
+     * @throws SQLException 
+     */
+    @Override
     public void addMissed(int x, int y, int player) throws SQLException {
         
         Connection conn = getConnection();
@@ -308,6 +337,17 @@ public class SQLShipDao implements ShipDao {
         conn.close();
     }
     
+    /**
+     * Metodi hakee tietokannasta pelaajan ohiosumat ja tallettaa ne parametrina annettuun kaksiulotteiseen taulukkoon.
+     * 
+     * @param player
+     * @param hits
+     * 
+     * @return kaksiulotteinen taulukko, jossa ohiosumat on merkitty numerolla 1.
+     * 
+     * @throws SQLException 
+     */
+    @Override
     public Integer[][] getMissed(int player, Integer[][] hits) throws SQLException {
         
         Connection conn = getConnection();
@@ -327,6 +367,17 @@ public class SQLShipDao implements ShipDao {
         return hits;
     }
     
+    /**
+     * Metodi hakee tietokannasta koordinaatit laivan osista, jotka pelaaja on upottanut ja tallettaa ne parametrina annettuun kaksiulotteiseen taulukkoon.
+     * 
+     * @param player
+     * @param hits
+     * 
+     * @return kaksiulotteinen taulukko, jossa osumat on merkitty numerolla 2.
+     * 
+     * @throws SQLException 
+     */
+    @Override
     public Integer[][] getSinkCoordinates(int player, Integer[][] hits) throws SQLException {
         
         Connection conn = getConnection();
@@ -346,6 +397,16 @@ public class SQLShipDao implements ShipDao {
         return hits;
     }
     
+    /**
+     * Metodi hakee tietokannasta pelaajan upottamien laivojen tyypit ja palauttaa ne listassa.
+     * 
+     * @param player
+     * 
+     * @return Lista pelaajan upottamista laivoista
+     * 
+     * @throws SQLException 
+     */
+    @Override
     public ArrayList<String> getSunkShips(int player) throws SQLException {
         
         Connection conn = getConnection();

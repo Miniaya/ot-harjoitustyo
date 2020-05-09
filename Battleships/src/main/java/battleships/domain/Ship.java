@@ -37,6 +37,8 @@ public class Ship {
     }
     
     /**
+     * Metodi palauttaa laivan pituuden
+     * 
      * @see battleships.domain.ShipType#size
      * 
      * @return laivatyypin pituus
