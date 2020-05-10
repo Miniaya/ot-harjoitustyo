@@ -163,10 +163,7 @@ public class BattleshipsUi extends Application {
                 initializeGameboard(player1Pane, 1);
                 initializeGameboard(player2Pane, 2);
                 
-                ArrayList<String> sunk1 = service.getSunk(1);
-                ArrayList<String> sunk2 = service.getSunk(2);
-                
-                if (sunk1.size() == 6 || sunk2.size() == 6) {
+                if (service.isEmpty(1) || service.isEmpty(2)) {
                     
                     newGame();
                     
@@ -178,7 +175,7 @@ public class BattleshipsUi extends Application {
                     shipPane1.getChildren().add(player1);
                     shipPane1.getChildren().add(new Label(""));
                     
-                    for (String ship : sunk1) {
+                    for (String ship : service.getSunk(1)) {
                         Label label = new Label(ship);
                         label.setFont(Font.font("Arial", 20));
                         shipPane1.getChildren().add(label);
@@ -187,7 +184,7 @@ public class BattleshipsUi extends Application {
                     shipPane2.getChildren().add(player2);
                     shipPane2.getChildren().add(new Label(""));
                     
-                    for (String ship : sunk2) {
+                    for (String ship : service.getSunk(2)) {
                         Label label = new Label(ship);
                         label.setFont(Font.font("Arial", 20));
                         shipPane2.getChildren().add(label);
