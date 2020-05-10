@@ -172,6 +172,9 @@ public class BattleshipsUi extends Application {
                     
                 } else {
                 
+                    shipPane1.getChildren().clear();
+                    shipPane2.getChildren().clear();
+                    
                     shipPane1.getChildren().add(player1);
                     shipPane1.getChildren().add(new Label(""));
                     
