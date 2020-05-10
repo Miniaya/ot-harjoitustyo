@@ -57,7 +57,7 @@ public class ShipServiceTest {
         
         ser.sink(1, 1, 1);
         
-        assertEquals("battleship", ser.isSink(1));
+        assertEquals("battleship", ser.isSunk(1));
     }
     
     @Test
@@ -65,7 +65,7 @@ public class ShipServiceTest {
         shipDao.create(ship);
         shipDao.addCoordinates(ship, 1, 1);
         
-        assertEquals(null, ser.isSink(1));
+        assertEquals(null, ser.isSunk(1));
     }
     
     @Test
