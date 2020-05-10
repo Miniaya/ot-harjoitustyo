@@ -3,6 +3,8 @@ package battleships.ui;
 import battleships.dao.SQLShipDao;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -11,7 +13,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyCombination;
@@ -29,13 +30,19 @@ import java.util.logging.Logger;
 import java.util.Properties;
 
 import battleships.domain.ShipService;
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class BattleshipsUi extends Application {
     
     private ShipService service;
     private Label turn;
     private Stage primaryStage;
+    private GridPane player1Pane;
+    private GridPane player2Pane;
+    private VBox shipPane1;
+    private VBox shipPane2;
+    private Label player1;
+    private Label player2;
     
     @Override
     public void init() throws SQLException, FileNotFoundException, IOException {
@@ -61,14 +68,21 @@ public class BattleshipsUi extends Application {
         VBox menuPane = new VBox();
         menuPane.setSpacing(10);
         
+        Label battleships = new Label("BattleShips");
+        battleships.setPadding(new Insets(20, 20, 20, 20));
+        battleships.setFont(Font.font("Arial", 70));
+        
         Button newGame = new Button("New game");
-        newGame.setFont(Font.font("Monospaced", 30));
+        newGame.setFont(Font.font("Arial", 30));
+        newGame.setMaxSize(300.0, Double.MAX_VALUE);
         
         Button resume = new Button("Resume game");
-        resume.setFont(Font.font("Monospaced", 30));
+        resume.setFont(Font.font("Arial", 30));
+        resume.setMaxSize(300.0, Double.MAX_VALUE);
         
         Button quit = new Button("Quit game");
-        quit.setFont(Font.font("Monospaced", 30));
+        quit.setFont(Font.font("Arial", 30));
+        quit.setMaxSize(300.0, Double.MAX_VALUE);
         
         menuPane.getChildren().add(newGame);
         menuPane.getChildren().add(resume);
@@ -76,40 +90,37 @@ public class BattleshipsUi extends Application {
         
         menuPane.setAlignment(Pos.CENTER);
         
+        mainPane.setTop(battleships);
         mainPane.setCenter(menuPane);
         
         Scene mainMenuScene = new Scene(mainPane);
         
         // Creating the game
-        GridPane player1Pane = new GridPane();
-        GridPane player2Pane = new GridPane();
+        player1Pane = new GridPane();
+        player2Pane = new GridPane();
         BorderPane mainGamePane = new BorderPane();
-        VBox shipPane1 = new VBox();
-        VBox shipPane2 = new VBox();
+        shipPane1 = new VBox();
+        shipPane2 = new VBox();
         VBox pane = new VBox();
         HBox gameBoardPane = new HBox();
         
         gameBoardPane.setSpacing(100);
         pane.setSpacing(50);
         
+        player1 = new Label("Player 1");
+        player1.setFont(Font.font("Arial", 30));
+        player1.setStyle("-fx-font-weight: bold");
+        
+        player2 = new Label("Player 2");
+        player2.setFont(Font.font("Arial", 30));
+        player2.setStyle("-fx-font-weight: bold");
+        
         Button back = new Button("Back to menu");
-        back.setFont(Font.font("Monospaced", 30));
+        back.setFont(Font.font("Arial", 30));
         
         turn = new Label();
         turn.setText("Whose turn: Player 1");
-        turn.setFont(Font.font("Monospaced", 30));
-        
-        Label player1 = new Label("Player 1");
-        player1.setFont(Font.font("Monospaced", 30));
-        
-        Label player2 = new Label("Player 2");
-        player2.setFont(Font.font("Monospaced", 30));
-        
-        shipPane1.getChildren().add(player1);
-        shipPane1.getChildren().add(new Label(""));
-        
-        shipPane2.getChildren().add(player2);
-        shipPane2.getChildren().add(new Label(""));
+        turn.setFont(Font.font("Arial", 30));
         
         gameBoard(player1Pane, shipPane1, 1, 2);
         gameBoard(player2Pane, shipPane2, 2, 1);
@@ -135,23 +146,8 @@ public class BattleshipsUi extends Application {
         newGame.setOnAction((event) -> {
             
             try {
-                service.clear();
                 
-                clearGameboard(player1Pane);
-                clearGameboard(player2Pane);
-                
-                shipPane1.getChildren().clear();
-                shipPane2.getChildren().clear();
-                
-                shipPane1.getChildren().add(player1);
-                shipPane1.getChildren().add(new Label(""));
-        
-                shipPane2.getChildren().add(player2);
-                shipPane2.getChildren().add(new Label(""));
-                
-                turn.setText("Whose turn: Player 1");
-                
-                service.generateShips();
+                newGame();
                 
             } catch (SQLException ex) {
                 Logger.getLogger(BattleshipsUi.class.getName()).log(Level.SEVERE, null, ex);
@@ -167,23 +163,32 @@ public class BattleshipsUi extends Application {
                 initializeGameboard(player1Pane, 1);
                 initializeGameboard(player2Pane, 2);
                 
-                if (shipPane1.getChildren().size() == 2) {
+                ArrayList<String> sunk1 = service.getSunk(1);
+                ArrayList<String> sunk2 = service.getSunk(2);
                 
-                    for (String ship : service.getSunk(1)) {
+                if (sunk1.size() == 6 || sunk2.size() == 6) {
+                    
+                    newGame();
+                    
+                } else {
+                
+                    shipPane1.getChildren().add(player1);
+                    shipPane1.getChildren().add(new Label(""));
+                    
+                    for (String ship : sunk1) {
                         Label label = new Label(ship);
-                        label.setFont(Font.font("Monospaced", 20));
+                        label.setFont(Font.font("Arial", 20));
                         shipPane1.getChildren().add(label);
                     }
-                }
-                
-                if (shipPane2.getChildren().size() == 2) {
-                
-                    for (String ship : service.getSunk(2)) {
+                    
+                    shipPane2.getChildren().add(player2);
+                    shipPane2.getChildren().add(new Label(""));
+                    
+                    for (String ship : sunk2) {
                         Label label = new Label(ship);
-                        label.setFont(Font.font("Monospaced", 20));
+                        label.setFont(Font.font("Arial", 20));
                         shipPane2.getChildren().add(label);
                     }
-                
                 }
                 
             } catch (SQLException ex) {
@@ -214,43 +219,71 @@ public class BattleshipsUi extends Application {
         
         for(int i = 1 ; i <= 10 ; i++){
             for(int j = 1 ; j <= 10 ; j++){
-                Button button = new Button(" ");
-                button.setFont(Font.font("Monospaced", 30));
+                Button button = new Button();
+                
+                if(turn.getText().endsWith(String.valueOf(player))){
+                    
+                    button.setFont(Font.font("Arial", 30));
+                
+                    button.setMinSize(65.0, 65.0);
+                    button.setPrefSize(65.0, 65.0);
+                    button.setMaxSize(65.0, 65.0);
+                    
+                } else {
+                    
+                    button.setFont(Font.font("Arial", 25));
+                
+                    button.setMinSize(60.0, 60.0);
+                    button.setPrefSize(60.0, 60.0);
+                    button.setMaxSize(60.0, 60.0);
+                    
+                }
+                
                 pane.add(button, i + 1, j + 1);
                 
                 int x = i;
                 int y = j;
                 
                 button.setOnAction((event) -> {
+
                     try {
                         
                         int shot = service.isShip(x, y, player);
                         
-                        if (turn.getText().endsWith(String.valueOf(player)) && shot > 0 && button.getText().equals(" ")) {
+                        if (turn.getText().endsWith(String.valueOf(player)) && shot > 0 && button.getText().equals("")) {
                             button.setText("O");
                             button.setTextFill(Color.RED);
                             service.sink(x, y, shot);
                             
-                            String ship = service.isSink(shot);
+                            String ship = service.isSunk(shot);
                             
                             turn.setText("Whose turn: Player " + opponent);
                             
                             if (ship != null) {
                                 
                                 Label label = new Label(ship);
-                                label.setFont(Font.font("Monospaced", 20));
+                                label.setFont(Font.font("Arial", 20));
                                 
                                 ships.getChildren().add(label);
                             }
                             
-                        } else if (turn.getText().endsWith(String.valueOf(player)) && shot < 0 && button.getText().equals(" ")) {
+                            changeTurn(opponent);
+                            
+                        } else if (turn.getText().endsWith(String.valueOf(player)) && shot < 0 && button.getText().equals("")) {
                             
                             button.setText("X");
                             turn.setText("Whose turn: Player " + opponent);
                             service.addMissed(x, y, player);
-                        }
+                            
+                            changeTurn(opponent);
+                            
+                        } 
                         
                         if (service.isEmpty(player)) {
+                            
+                            changeButtonAndLabelSize(player1Pane, "normal", 15, 25, 60.0);
+                            changeButtonAndLabelSize(player2Pane, "normal", 15, 25, 60.0);
+                            
                             turn.setText("Player " + player + " won!");
                         }
                         
@@ -260,18 +293,38 @@ public class BattleshipsUi extends Application {
                     
                 });
                 
-                pane.setGridLinesVisible(false);
             }
         }
         
         for(int i = 65 ; i < 75 ; i++){
             Label label = new Label(String.valueOf((char) i));
-            label.setTextAlignment(TextAlignment.CENTER);
+            GridPane.setHalignment(label, HPos.CENTER);
             pane.add(label, i - 63, 0);
+            
+            if(turn.getText().endsWith(String.valueOf(player))) {
+                label.setStyle("-fx-font-weight: bold");
+                label.setFont(Font.font("Arial", 20));
+            } else {
+                label.setStyle("-fx-font-weight: normal");
+                label.setFont(Font.font("Arial", 15));
+            }
         }
         
         for(int i = 1 ; i <= 10 ; i++){
-            pane.add(new Label(String.valueOf(i)), 0, i + 1);
+            Label label = new Label(String.valueOf(i));
+            GridPane.setHalignment(label, HPos.CENTER);
+            pane.add(label, 0, i + 1);
+            
+            if(turn.getText().endsWith(String.valueOf(player))) {
+                
+                label.setStyle("-fx-font-weight: bold");
+                label.setFont(Font.font("Arial", 20));
+                
+            } else {
+                
+                label.setStyle("-fx-font-weight: normal");
+                label.setFont(Font.font("Arial", 15));
+            }
         }
     }
     
@@ -286,7 +339,7 @@ public class BattleshipsUi extends Application {
         for(Node node : pane.getChildren()) {
             
             if(node instanceof Button){
-                ((Button) node).setText(" ");
+                ((Button) node).setText("");
                 ((Button) node).setTextFill(Color.BLACK);
             }
         }
@@ -312,6 +365,62 @@ public class BattleshipsUi extends Application {
                 }
             }
         }
+    }
+    
+    private void changeTurn(int opponent){
+        
+        if(opponent == 1){
+            
+            changeButtonAndLabelSize(player1Pane, "bold", 20, 30, 65.0);
+            changeButtonAndLabelSize(player2Pane, "normal", 15, 25, 60.0);
+            
+        } else if (opponent == 2){
+            
+            changeButtonAndLabelSize(player2Pane, "bold", 20, 30, 65.0);
+            changeButtonAndLabelSize(player1Pane, "normal", 15, 25, 60.0);
+            
+        }
+    }
+    
+    private void changeButtonAndLabelSize(GridPane pane, String weight, int labelFont, int buttonFont, double buttonSize){
+        for(Node node : pane.getChildren()){
+                                
+                if(node instanceof Label){
+                                
+                    node.setStyle("-fx-font-weight: " + weight);
+                    ((Label) node).setFont(Font.font("Arial", labelFont));
+                }
+                
+                if(node instanceof Button){
+                    ((Button) node).setFont(Font.font("Arial", buttonFont));
+                
+                    ((Button) node).setMinSize(buttonSize, buttonSize);
+                    ((Button) node).setPrefSize(buttonSize, buttonSize);
+                    ((Button) node).setMaxSize(buttonSize, buttonSize);
+                }
+            }
+    }
+    
+    private void newGame() throws SQLException {
+        
+        service.clear();
+                
+        clearGameboard(player1Pane);
+        clearGameboard(player2Pane);
+                
+        shipPane1.getChildren().clear();
+        shipPane2.getChildren().clear();
+                
+        shipPane1.getChildren().add(player1);
+        shipPane1.getChildren().add(new Label(""));
+        
+        shipPane2.getChildren().add(player2);
+        shipPane2.getChildren().add(new Label(""));
+                
+        turn.setText("Whose turn: Player 1");
+                
+        service.generateShips();
+        
     }
     
     public static void main(String[] args){

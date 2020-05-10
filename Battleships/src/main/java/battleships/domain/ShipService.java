@@ -5,7 +5,6 @@ import battleships.dao.SQLShipDao;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import java.util.Random;
 
@@ -77,7 +76,7 @@ public class ShipService {
     
     /**
      * Metodi lisää tietokantaan koordinaatit, johon pelaaja ampui, ja jossa ei 
-     * ollut laivaa.
+     * ole laivaa.
      * 
      * @param x
      * @param y
@@ -113,20 +112,7 @@ public class ShipService {
      */
     public void generateShips() throws SQLException {
         
-        // add ships to database
-        shipDao.create(carrier1);
-        shipDao.create(battleship1);
-        shipDao.create(cruiser1);
-        shipDao.create(rowboat1);
-        shipDao.create(submarine1);
-        shipDao.create(destroyer1);
-        
-        shipDao.create(carrier2);
-        shipDao.create(battleship2);
-        shipDao.create(cruiser2);
-        shipDao.create(rowboat2);
-        shipDao.create(submarine2);
-        shipDao.create(destroyer2);
+        addShipsToDatabase();
         
         generateCoordinates(carrier1);
         generateCoordinates(battleship1);
@@ -174,7 +160,7 @@ public class ShipService {
      * 
      * @throws SQLException 
      */
-    public String isSink(int id) throws SQLException {
+    public String isSunk(int id) throws SQLException {
         
         if (shipDao.isSunk(id)) {
             
@@ -307,6 +293,24 @@ public class ShipService {
             }
                 
         }
+        
+    }
+    
+    private void addShipsToDatabase() throws SQLException {
+        
+        shipDao.create(carrier1);
+        shipDao.create(battleship1);
+        shipDao.create(cruiser1);
+        shipDao.create(rowboat1);
+        shipDao.create(submarine1);
+        shipDao.create(destroyer1);
+        
+        shipDao.create(carrier2);
+        shipDao.create(battleship2);
+        shipDao.create(cruiser2);
+        shipDao.create(rowboat2);
+        shipDao.create(submarine2);
+        shipDao.create(destroyer2);
         
     }
     
