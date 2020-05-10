@@ -25,4 +25,5 @@
 |      | 4    | Uusi peli / jatka peliä toimivat oikein |
 |9.5.  | 1    | Parempi testikattavuus |
 |      | 1    | JavaDocin päivitys |
-|Yhteensä | 37 |          |
+|10.5. | 2    | Selkeämmät vuorot ja muu tyylittely |
+|Yhteensä | 39 |          |
