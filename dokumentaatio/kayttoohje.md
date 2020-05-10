@@ -25,7 +25,7 @@ Kun ollaan samassa kansiossa ohjelman kanssa.
 
 Peli käynnistyy aloitusvalikkoon.
 
-![alt_text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/alku.png)
+![alt_text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/aloitus.png)
 
 Peli alkaa, kun painaa _New game_ -painiketta. _Resume game_ -painikkeesta pääsee jatkamaan keskeneräistä peliä.
 
@@ -33,7 +33,7 @@ Peli alkaa, kun painaa _New game_ -painiketta. _Resume game_ -painikkeesta pää
 
 Peli alkaa pelaaja 1:n vuorolla (vasen pelilauta). Vuorot näkyvät pelilautojen alapuolella, ja vuorossa olevan pelaajan pelilauta on hieman suurempi. 
 
-![alt_text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/aloitus.png)
+![alt_text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/alku.png)
 
 Pelaajan painettua jotain pelilaudan ruutua ruutuun tulee näkyviin, osuiko pelaaja (punainen O) vai menikö ammus ohi (musta X). Tämän jälkeen vuoro siirtyy pelaajalle 2, joka puolestaan painaa jotain ruutua omalta pelilaudaltaan (oikea pelilauta).
 
