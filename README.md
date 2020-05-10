@@ -17,7 +17,8 @@ Sovellus on oma versioni klassisesta laivanupotus-pelistä, jossa tarkoituksena 
 ## Releaset
 
 [Viikko 5](https://github.com/Miniaya/ot-harjoitustyo/releases/tag/viikko5)
-[loppupalautus]()
+
+[loppupalautus](https://github.com/Miniaya/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Komentorivitoiminnot
 
@@ -31,7 +32,9 @@ mvn compile exec:java -Dexec.mainClass=battleships.ui.Main
 
 ### Suoritettavan jarin generointi
 
-```mvn package``` 
+```
+mvn package
+``` 
 
 generoi kansioon target jar-tiedoston _Battleships-1.0-SNAPSHOT.jar_
 
@@ -39,7 +42,9 @@ generoi kansioon target jar-tiedoston _Battleships-1.0-SNAPSHOT.jar_
 
 Testit suoritetaan ja testikattavuusraportti luodaan komennolla 
 
-```mvn test jacoco:report```
+```
+mvn test jacoco:report
+```
 
 raporttia voi tarkastella avaamalla selaimessa tiedosto _target/site/jacoco/index.html_
 
@@ -47,7 +52,9 @@ raporttia voi tarkastella avaamalla selaimessa tiedosto _target/site/jacoco/inde
 
 Tiedostoon checkstyle.xml määritellyt tarkistukset suoritetaan komennolla 
 
-```mvn jxr:jxr checkstyle:checkstyle```
+```
+mvn jxr:jxr checkstyle:checkstyle
+```
 
 Mahdollisia virheitä voi tarkastella avaamalla selaimessa tiedosto _target/site/checkstyle.html_
 
@@ -55,6 +62,8 @@ Mahdollisia virheitä voi tarkastella avaamalla selaimessa tiedosto _target/site
 
 JavaDoc generoidaan komennolla 
 
-```mvn javadoc:javadoc```
+```
+mvn javadoc:javadoc
+```
 
 JavaDocia voi tarkastella avaamalla selaimessa tiedosto _target/site/apidocs/index.html_

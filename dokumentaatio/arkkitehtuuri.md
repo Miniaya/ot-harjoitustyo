@@ -60,7 +60,7 @@ Toinen pelaaja painaa samaa nappia omalla pelilaudallaan. Nyt SQLShipDaon metodi
 
 #### Ampuminen kohtaan, jossa on laiva, ja se uppoaa
 
-![alt_text]((https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/sekvenssi3.png)
+![alt_text](https://github.com/Miniaya/ot-harjoitustyo/blob/master/dokumentaatio/kuvat/sekvenssi3.png)
 
 Pelaaja 2 painaa nappia, jossa on edellä löydetyn laivan viimeinen uppoamaton osa. Erona edelliseen tapahtumaan on, että SQLShipDaon metodi isSunk palauttaa true, koska kaikki laivan osat ovat nyt uponneet. Metodi kutsuu nyt SQLShipDaon metodia getShip, joka palauttaa uponneen laivan tyypin (tässä tapauksessa carrier). Metodi kutsuu vielä SQLShipDaon metodia sinkShip, joka merkitsee kyseisen laivan upotetuksi. ShipServicen metodi palauttaa tapahtumankäsittelijälle arvon carrier. Koska tämän arvo ei ole null, laiva lisätään upotettujen listalle pelaajan 2 alapuolelle. UI:n metodia changeTurn kutsutaan ja vuoro siirtyy pelaajalle 1.
 
