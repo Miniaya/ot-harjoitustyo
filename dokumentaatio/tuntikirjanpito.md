@@ -26,4 +26,5 @@
 |9.5.  | 1    | Parempi testikattavuus |
 |      | 1    | JavaDocin päivitys |
 |10.5. | 2    | Selkeämmät vuorot ja muu tyylittely |
-|Yhteensä | 39 |          |
+|      | 3    | Dokumentaatio kuntoon ja viimeiset viilaukse |
+|Yhteensä | 42 |          |
