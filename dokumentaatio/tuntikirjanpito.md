@@ -24,4 +24,5 @@
 |      | 1    | Tietokannan järkevöittäminen |
 |      | 4    | Uusi peli / jatka peliä toimivat oikein |
 |9.5.  | 1    | Parempi testikattavuus |
-|Yhteensä | 36 |          |
+|      | 1    | JavaDocin päivitys |
+|Yhteensä | 37 |          |
