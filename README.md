@@ -17,7 +17,8 @@ Sovellus on oma versioni klassisesta laivanupotus-pelistä, jossa tarkoituksena 
 ## Releaset
 
 [Viikko 5](https://github.com/Miniaya/ot-harjoitustyo/releases/tag/viikko5)
-[loppupalautus]()
+
+[loppupalautus](https://github.com/Miniaya/ot-harjoitustyo/releases/tag/loppupalautus)
 
 ## Komentorivitoiminnot
 
